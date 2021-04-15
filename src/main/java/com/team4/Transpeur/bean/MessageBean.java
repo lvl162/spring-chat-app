@@ -1,4 +1,4 @@
-package com.web.socket.websocket.bean;
+package com.team4.Transpeur.bean;
 
 
 public class MessageBean {

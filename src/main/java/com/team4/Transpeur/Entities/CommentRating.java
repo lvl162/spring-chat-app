@@ -2,7 +2,7 @@ package com.team4.Transpeur.Entities;
 
 import javax.persistence.*;
 
-public class Rating extends AuditModel{
+public class CommentRating extends AuditModel{
     @Column(name="id")
     private Long id;
     @Column(name="rate_user_id")

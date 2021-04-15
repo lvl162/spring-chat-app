@@ -1,6 +1,6 @@
-package com.web.socket.websocket.controller;
+package com.team4.Transpeur.Controller;
 
-import com.web.socket.websocket.bean.MessageBean;
+import com.team4.Transpeur.bean.MessageBean;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;

@@ -1,2 +1,5 @@
-package com.team4.Transpeur.Entities;public class Ratings {
+package com.team4.Transpeur.Entities;
+
+public class Ratings {
+    private long id;
 }

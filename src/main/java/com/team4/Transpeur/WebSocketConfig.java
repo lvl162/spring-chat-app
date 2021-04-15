@@ -1,4 +1,4 @@
-package com.web.socket.websocket;
+package com.team4.Transpeur;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

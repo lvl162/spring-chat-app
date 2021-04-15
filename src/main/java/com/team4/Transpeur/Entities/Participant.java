@@ -1,2 +1,4 @@
-package com.team4.Transpeur.Entities;public class Participant {
+package com.team4.Transpeur.Entities;
+
+public class Participant extends AuditModel {
 }

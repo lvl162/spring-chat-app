@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <title>Spring Security Example </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:if = "${param.error}">
+    Invalid username and password.
+</div>
+<div th:if = "${param.logout}">
+    You have been logged out.
+</div>
+<script>
+    $(document).ready(function(){
+
+    $("#but_submit").click(function(){
+        var username = $("#u1").val().trim();
+        var password = $("#p1").val().trim();
+
+        if( username != "" && password != "" ){
+            $.ajax({
+                url: "/api/auth/signin",
+                type:'post',
+                data: JSON.stringify({ "username": username, "password" : password }),
+                contentType : 'application/json',
+                success:function(data, status){
+                    alert("Data: " + data["accessToken"] + "\nStatus: " + status);
+                    console.log(data);
+                    let token = data.accessToken;
+                    $.cookie("token", token);
+                }
+            });
+            $.ajaxSetup({
+            headers:{
+                'Authorization': 'Bearer ' + $.cookie(token)
+    }
+})
+        }
+    });
+    $("#getUser").click(function() {
+    $.ajax({
+                    type    : 'GET',
+                    url     : '/',
+                    success : function(data){
+                        console.log(data);
+                        $("html").html(data);
+                    }
+                });
+});
+});
+
+
+</script>
+    <div>
+        <label> User Name : <input type = "text" id = "u1" name = "username"/> </label>
+    </div>
+    <div>
+        <label> Password: <input type = "password" id = "p1" name = "password"/> </label>
+    </div>
+    <div>
+        <input type = "button" id="but_submit" value = "Sign In"/>
+    </div>
+    <button id="getUser">yes</button>
+
+</body>
+</html>

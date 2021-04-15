@@ -1,2 +1,4 @@
-package com.team4.Transpeur.Entities;public class TravelSchedule {
+package com.team4.Transpeur.Entities;
+
+public class TravelSchedule extends AuditModel{
 }
