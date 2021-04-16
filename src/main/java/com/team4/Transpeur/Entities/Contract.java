@@ -1,16 +1,22 @@
 package com.team4.Transpeur.Entities;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 
+@Entity
+@Table(name="contract", schema = "public")
 public class Contract extends AuditModel {
+    @Id
     @Column(name="id")
     private Long id;
-    @Column(name="id_user_a")
-    private Long idUserA;
-    @Column(name="id_user_b")
-    private Long idUserB;
-    @Column(name="id_travel_schedule")
-    private Long idTravelSchedule;
+
+    @ManyToOne
+    @JoinColumn(name="receiver_id", nullable = false)
+    private User receiver;
+
+    @ManyToOne
+    @JoinColumn(name="travelschedule_id", nullable = false)
+    private TravelSchedule travelSchedule;
+
     @Column(name="description")
     private String description;
 
@@ -22,35 +28,4 @@ public class Contract extends AuditModel {
         this.id = id;
     }
 
-    public Long getIdUserA() {
-        return idUserA;
-    }
-
-    public void setIdUserA(Long idUserA) {
-        this.idUserA = idUserA;
-    }
-
-    public Long getIdUserB() {
-        return idUserB;
-    }
-
-    public void setIdUserB(Long idUserB) {
-        this.idUserB = idUserB;
-    }
-
-    public Long getIdTravelSchedule() {
-        return idTravelSchedule;
-    }
-
-    public void setIdTravelSchedule(Long idTravelSchedule) {
-        this.idTravelSchedule = idTravelSchedule;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

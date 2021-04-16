@@ -90,7 +90,7 @@ public class User extends AuditModel {
     }
 
     // messages
-    @OneToMany(mappedBy="cart")
+    @OneToMany(mappedBy="user")
     private Set<Message> messages;
     public Set<Message> getMessages() {
         return messages;
@@ -100,6 +100,53 @@ public class User extends AuditModel {
         this.messages = messages;
     }
 
+    // participants
+    @OneToMany(mappedBy="user")
+    private Set<Participant> participants;
+    public Set<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<Participant> participants) {
+        this.participants = participants;
+    }
+
+
+    //travel schedules
+    @OneToMany(mappedBy="user")
+    private Set<TravelSchedule> travelSchedules;
+    public Set<TravelSchedule> getTravelSchedules() {
+        return travelSchedules;
+    }
+
+    public void setTravelSchedules(Set<TravelSchedule> travelSchedules) {
+        this.travelSchedules = travelSchedules;
+    }
+
+    // reports
+
+    @OneToMany(mappedBy="user")
+    private Set<Report> reports;
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
+    }
+
+
+    //  contract
+
+//    @OneToMany(mappedBy="user")
+//    private Set<Contract> contracts;
+//    public Set<Contract> getContracts() {
+//        return contracts;
+//    }
+//
+//    public void setContracts(Set<Contract> contracts) {
+//        this.contracts = contracts;
+//    }
 
 
     public Long getId() {
