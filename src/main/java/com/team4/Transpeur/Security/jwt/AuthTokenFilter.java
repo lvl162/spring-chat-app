@@ -35,7 +35,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            System.out.println(jwt);
+            System.out.println("jwt: " + jwt);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
@@ -56,7 +56,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
-        System.out.println(headerAuth);
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
 
@@ -65,6 +64,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             }
         }
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            System.out.println(headerAuth.substring(7, headerAuth.length()));
             return headerAuth.substring(7, headerAuth.length());
         }
 
