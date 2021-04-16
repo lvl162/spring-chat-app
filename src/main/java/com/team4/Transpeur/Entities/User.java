@@ -38,22 +38,19 @@ public class User extends AuditModel {
 
     @Column(name = "is_blocked", columnDefinition = "boolean default false")
     private boolean is_blocked;
-
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
-
     public User() {
     }
-
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
     }
+    // user_role table
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public Set<Role> getRoles() {
         return roles;
@@ -62,6 +59,49 @@ public class User extends AuditModel {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+
+
+
+
+    // userverification table
+    @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Verification verification;
+    public Verification getVerification() {
+        return verification;
+    }
+
+    public void setVerification(Verification verification) {
+        this.verification = verification;
+    }
+
+
+    // Info Auth
+    @OneToOne(mappedBy = "user", cascade=CascadeType.DETACH)
+    @PrimaryKeyJoinColumn
+    private InformationAuthentication inAu;
+    public InformationAuthentication getInAu() {
+        return inAu;
+    }
+
+    public void setInAu(InformationAuthentication inAu) {
+        this.inAu = inAu;
+    }
+
+    // messages
+    @OneToMany(mappedBy="cart")
+    private Set<Message> messages;
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
+
+
+
     public Long getId() {
         return id;
     }
