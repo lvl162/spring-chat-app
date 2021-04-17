@@ -55,20 +55,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        System.out.println("doing parseJwt started");
         String headerAuth = request.getHeader("Authorization");
-        System.out.println("doing parseJwt started 2");
-        Cookie[] cookies = request.getCookies();
-        System.out.println("doing parseJwt started 3");
-        System.out.println("doing parseJwt started 5");
-
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            System.out.println("doing parseJwt started 6");
-            System.out.println(headerAuth.substring(7, headerAuth.length()));
             return headerAuth.substring(7, headerAuth.length());
         }
-        System.out.println("doing parseJwt started 6");
-
         return null;
     }
 }
