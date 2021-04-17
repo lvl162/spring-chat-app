@@ -22,7 +22,7 @@ public class UserController {
         return userRepository.findAll(pageable);
     }
     @PostMapping("/users")
-    public User createQuestion(@Valid @RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return userRepository.save(user);
     }
 }
