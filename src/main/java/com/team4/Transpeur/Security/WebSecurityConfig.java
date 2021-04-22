@@ -59,10 +59,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll().and()
                 .authorizeRequests()
-                .antMatchers("/index").permitAll()
+                .antMatchers("/index", "/login", "/signin").permitAll()
                 .anyRequest().authenticated();
 
-        http.formLogin().loginPage("/signin").permitAll();
+//        http.formLogin().loginProcessingUrl("/api/auth/signin").loginPage("/signin").defaultSuccessUrl("/chat")
+//                .failureUrl("/signin?error=true")
+//                .permitAll();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

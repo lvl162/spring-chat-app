@@ -7,11 +7,13 @@ import com.team4.Transpeur.Payload.Request.LoginRequest;
 import com.team4.Transpeur.Payload.Request.SignupRequest;
 import com.team4.Transpeur.Payload.Respone.JwtResponse;
 import com.team4.Transpeur.Payload.Respone.MessageResponse;
-import com.team4.Transpeur.Repositories.RoleRepository;
-import com.team4.Transpeur.Repositories.UserRepository;
 import com.team4.Transpeur.Security.jwt.JwtUtils;
 import com.team4.Transpeur.Security.services.UserDetailsImpl;
+import com.team4.Transpeur.Service.RoleService;
+import com.team4.Transpeur.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,24 +32,35 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
     AuthenticationManager authenticationManager;
 
-    @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
-    @Autowired
-    RoleRepository roleRepository;
+    RoleService roleService;
 
-    @Autowired
     PasswordEncoder encoder;
 
-    @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    public AuthController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService, PasswordEncoder encoder, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.roleService = roleService;
+        this.encoder = encoder;
+        this.jwtUtils = jwtUtils;
+    }
+
+    @Autowired
+
+    @GetMapping("/signout")
+    public ResponseEntity<?> logOut() {
+        ResponseCookie resCookie = ResponseCookie.from("accessToken", null).maxAge(0).path("/")
+                .build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).body("You have signed out");
+    }
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -59,7 +72,14 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
+        ResponseCookie resCookie = ResponseCookie.from("accessToken", jwt)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(1 * 24 * 60 * 60)
+                .domain("localhost")
+                .build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).body(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
@@ -68,13 +88,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userService.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
@@ -89,14 +109,14 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role userRole = roleService.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        Role adminRole = roleService.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
 
@@ -108,7 +128,7 @@ public class AuthController {
 //
 //                        break;
                     default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        Role userRole = roleService.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                 }
@@ -116,7 +136,7 @@ public class AuthController {
         }
 
         user.setRoles(roles);
-        userRepository.save(user);
+        userService.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

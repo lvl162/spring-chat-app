@@ -21,7 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 public class AuthTokenFilter extends OncePerRequestFilter {
-    final private String accessTokenCookieName = "token";
+    final private String accessTokenCookieName = "accessToken";
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -35,7 +35,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            System.out.println("jwt: " + jwt);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
@@ -59,6 +58,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7, headerAuth.length());
         }
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null)
+            for (Cookie cookie : cookies) {
+                if (accessTokenCookieName.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
         return null;
     }
 }

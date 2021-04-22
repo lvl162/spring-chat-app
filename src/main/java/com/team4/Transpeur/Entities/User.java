@@ -197,10 +197,6 @@ public class User extends AuditModel {
         this.email = email;
     }
 
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
-
     public void setIs_blocked(boolean is_blocked) {
         this.is_blocked = is_blocked;
     }

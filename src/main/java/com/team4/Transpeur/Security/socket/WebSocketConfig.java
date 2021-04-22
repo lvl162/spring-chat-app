@@ -1,4 +1,4 @@
-package com.team4.Transpeur;
+package com.team4.Transpeur.Security.socket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
