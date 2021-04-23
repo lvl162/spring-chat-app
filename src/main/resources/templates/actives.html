@@ -18,7 +18,7 @@
         <th>Let's chat</th>
     </tr>
     <tr th:each="prod : ${prods}">
-        <td th:text="${prod.getName()}"></td>
+        <td th:text="${prod.getUsername()}"></td>
         <td th:text="${prod.getEmail()}"></td>
         <td><a th:href="@{/chat(to=${prod.getId()})}">chat</a></td>
     </tr>

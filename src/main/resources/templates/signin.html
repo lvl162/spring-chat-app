@@ -30,8 +30,8 @@
                 contentType : 'application/json',
                 success:function(data, status){
                     console.log(data)
-                    // if (status == "success") window.location.href = "/chat"
-                    // else window.location.href = "/signin?error"
+                    if (status == "success") window.location.href = "/actives"
+                    else window.location.href = "/signin?error"
 
                     $.cookie("uid", data.id);
                     $.cookie("uname", data.username);

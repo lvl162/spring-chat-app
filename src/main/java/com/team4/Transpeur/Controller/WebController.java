@@ -24,7 +24,7 @@ public class WebController {
         return "index";
     }
 
-    @RequestMapping(value = "/signin")
+    @RequestMapping(value = {"/","/signin"})
     public String signin() {
         return "signin";
     }

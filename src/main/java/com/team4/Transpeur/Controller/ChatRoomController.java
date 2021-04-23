@@ -27,7 +27,6 @@ public class ChatRoomController {
 
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage) {
-        System.out.println(chatMessage.toString());
         ChatRoom chat = chatRoomService
                 .findBySenderIdAndRecipientId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true);
         Message message = new Message();
