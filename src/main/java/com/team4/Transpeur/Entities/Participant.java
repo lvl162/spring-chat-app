@@ -2,8 +2,8 @@ package com.team4.Transpeur.Entities;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="participant", schema = "public")
+//@Entity
+//@Table(name="participant", schema = "public")
 public class Participant extends AuditModel {
 
     @Id

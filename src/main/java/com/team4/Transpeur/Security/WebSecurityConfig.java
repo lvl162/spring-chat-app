@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll().and()
                 .authorizeRequests()
-                .antMatchers("/index", "/login", "/signin").permitAll()
+                .antMatchers("/index", "/", "/signin").permitAll()
                 .anyRequest().authenticated();
 
 //        http.formLogin().loginProcessingUrl("/api/auth/signin").loginPage("/signin").defaultSuccessUrl("/chat")

@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
@@ -71,14 +72,18 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-
         ResponseCookie resCookie = ResponseCookie.from("accessToken", jwt)
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
                 .maxAge(1 * 24 * 60 * 60)
-                .domain("localhost")
                 .build();
+//        ResponseCookie uidCookie = ResponseCookie.from("uid", userDetails.getId().toString())
+//                .httpOnly(true)
+//                .secure(true)
+//                .path("/")
+//                .maxAge(1 * 24 * 60 * 60)
+//                .build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).body(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),

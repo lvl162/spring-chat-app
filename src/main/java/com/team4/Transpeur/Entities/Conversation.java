@@ -2,8 +2,8 @@ package com.team4.Transpeur.Entities;
 
 import javax.persistence.*;
 import java.util.Set;
-@Entity
-@Table(name="conversation", schema = "public")
+//@Entity
+//@Table(name="conversation", schema = "public")
 public class Conversation extends AuditModel {
     @Id
     @Column(name="id")

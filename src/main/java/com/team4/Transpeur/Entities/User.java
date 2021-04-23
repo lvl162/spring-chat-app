@@ -90,26 +90,26 @@ public class User extends AuditModel {
     }
 
     // messages
-    @OneToMany(mappedBy="user")
-    private Set<Message> messages;
-    public Set<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Set<Message> messages) {
-        this.messages = messages;
-    }
+//    @OneToMany(mappedBy="user")
+//    private Set<Message> messages;
+//    public Set<Message> getMessages() {
+//        return messages;
+//    }
+//
+//    public void setMessages(Set<Message> messages) {
+//        this.messages = messages;
+//    }
 
     // participants
-    @OneToMany(mappedBy="user")
-    private Set<Participant> participants;
-    public Set<Participant> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(Set<Participant> participants) {
-        this.participants = participants;
-    }
+//    @OneToMany(mappedBy="user")
+//    private Set<Participant> participants;
+//    public Set<Participant> getParticipants() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(Set<Participant> participants) {
+//        this.participants = participants;
+//    }
 
 
     //travel schedules

@@ -1,6 +1,24 @@
 'use strict';
+var script = document.createElement('script');
+script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js';
+script.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(script);
 
-
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
@@ -8,6 +26,11 @@ var connectingElement = document.querySelector('#connecting');
 
 var stompClient = null;
 var username = null;
+var id = getCookie('uid');
+var uname = getCookie('uname');
+var chatId = null;
+var recipientId = location.search.split('to=')[1]
+
 
 
 function connect() {
@@ -24,15 +47,32 @@ connect();
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/publicChatRoom', onMessageReceived);
 
-    // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({sender: username, type: 'JOIN'})
-    )
+    $.ajax({
+        url: "/api/getChatId",
+        type:'post',
+        data: JSON.stringify({ "senderId": id, "recipientId" : recipientId }),
+        contentType : 'application/json',
+        success:function(data, status){
+            console.log(data)
+            if (status == "success") {
+                chatId = data.id;
+                stompClient.subscribe('/topic/' + data.id + '/queue/messages', onMessageReceived);
 
-    connectingElement.classList.add('hidden');
+
+                // Tell your username to the server
+                stompClient.send("/app/chat.addUser",
+                    {},
+                    JSON.stringify({sender: username, type: 'JOIN'})
+                )
+
+                connectingElement.classList.add('hidden');
+            }
+            else alert("loi me roi dcmmm");
+        }
+    });
+
+
 }
 
 
@@ -46,12 +86,32 @@ function sendMessage(event) {
     var messageContent = messageInput.value.trim();
     if(messageContent && stompClient) {
         var chatMessage = {
-            sender: username,
+            recipientId: recipientId,
+            recipientName: recipientId + '',
+            senderId: id,
+            senderName: uname,
             content: messageInput.value,
             type: 'CHAT'
         };
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
+
+        // var messageElement = document.createElement('li');
+        // messageElement.classList.add('chat-message');
+        // var usernameElement = document.createElement('strong');
+        // usernameElement.classList.add('nickname');
+        // var usernameText = document.createTextNode(chatMessage.senderName);
+        // var usernameText = document.createTextNode(chatMessage.senderName);
+        // usernameElement.appendChild(usernameText);
+        // messageElement.appendChild(usernameElement);
+        // var textElement = document.createElement('span');
+        // var messageText = document.createTextNode(chatMessage.content);
+        // textElement.appendChild(messageText);
+        //
+        // messageElement.appendChild(textElement);
+        //
+        // messageArea.appendChild(messageElement);
+        // messageArea.scrollTop = messageArea.scrollHeight;
     }
     event.preventDefault();
 }
@@ -64,16 +124,16 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
+        message.content = message.senderName + ' joined!';
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+        message.content = message.senderName + ' left!';
     } else {
         messageElement.classList.add('chat-message');
         var usernameElement = document.createElement('strong');
         usernameElement.classList.add('nickname');
-        var usernameText = document.createTextNode(message.sender);
-        var usernameText = document.createTextNode(message.sender);
+        var usernameText = document.createTextNode(message.senderName);
+        var usernameText = document.createTextNode(message.senderName);
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
     }

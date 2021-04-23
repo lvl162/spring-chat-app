@@ -7,17 +7,29 @@ import javax.persistence.*;
 public class Message extends AuditModel {
     @Id
     @Column(name="id")
+    @GeneratedValue(generator = "user_generator")
+    @SequenceGenerator(
+            name = "user_generator",
+            sequenceName = "user_sequence",
+            initialValue = 1000
+    )
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
-    private User user;
+    @JoinColumn(name="creator_id", nullable = false)
+    private User creator;
 
+//    @ManyToOne
+//    @JoinColumn(name="conversation_id", nullable = false)
+//    private Conversation conversation;
     @ManyToOne
-    @JoinColumn(name="conversation_id", nullable = false)
-    private Conversation conversation;
+    @JoinColumn(name="chatroom_id", nullable = false)
+    private ChatRoom chatRoom;
+    public enum MessageType {
+        CHAT, JOIN, LEAVE
+    }
     @Column(name="message_type")
-    private String messageType;
+    private MessageType messageType;
     @Column(name="content")
     private String content;
 
@@ -29,27 +41,35 @@ public class Message extends AuditModel {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+//    public Conversation getConversation() {
+//        return conversation;
+//    }
+//
+//    public void setConversation(Conversation conversation) {
+//        this.conversation = conversation;
+//    }
+
+    public User getCreator() {
+        return creator;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
-    public Conversation getConversation() {
-        return conversation;
+    public ChatRoom getChatRoom() {
+        return chatRoom;
     }
 
-    public void setConversation(Conversation conversation) {
-        this.conversation = conversation;
+    public void setChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
     }
 
-    public String getMessageType() {
+    public MessageType getMessageType() {
         return messageType;
     }
 
-    public void setMessageType(String messageType) {
+    public void setMessageType(MessageType messageType) {
         this.messageType = messageType;
     }
 
@@ -60,4 +80,5 @@ public class Message extends AuditModel {
     public void setContent(String content) {
         this.content = content;
     }
+
 }

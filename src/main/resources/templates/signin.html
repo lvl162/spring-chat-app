@@ -29,11 +29,12 @@
                 data: JSON.stringify({ "username": username, "password" : password }),
                 contentType : 'application/json',
                 success:function(data, status){
-                    console.log(status)
-                    if (status == "success") window.location.href = "/chat"
-                    else window.location.href = "/signin?error"
+                    console.log(data)
+                    // if (status == "success") window.location.href = "/chat"
+                    // else window.location.href = "/signin?error"
 
-
+                    $.cookie("uid", data.id);
+                    $.cookie("uname", data.username);
                 }
             });
             $.ajaxSetup({

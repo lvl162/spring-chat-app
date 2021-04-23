@@ -8,10 +8,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-@Controller
+//@Controller
 public class SocketController {
-
-
 
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/publicChatRoom")
