@@ -2,9 +2,9 @@ package com.team4.Transpeur.Security;
 
 import com.team4.Transpeur.Security.jwt.AuthEntryPointJwt;
 import com.team4.Transpeur.Security.jwt.AuthTokenFilter;
+import com.team4.Transpeur.Security.services.CustomAuthenticationSuccessHandler;
 import com.team4.Transpeur.Security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +29,8 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
-
+    @Bean
+    CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {return new CustomAuthenticationSuccessHandler();};
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
@@ -38,15 +39,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthTokenFilter();
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     @Bean
@@ -66,13 +70,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll().and()
                 .authorizeRequests()
-                .antMatchers("/index", "/", "/signin").permitAll()
+                .antMatchers("/index", "/", "/login","/signin").permitAll()
                 .anyRequest().authenticated();
+        http.authorizeRequests().and().formLogin()//
+                .loginProcessingUrl("/j_spring_security_login")//
+                .loginPage("/login")//
+                .successHandler(customAuthenticationSuccessHandler())
+                .usernameParameter("username")//
+                .passwordParameter("password")
+                // Cấu hình cho Logout Page.
+                .and().logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/login?message=logout");
 
 //        http.formLogin().loginProcessingUrl("/api/auth/signin").loginPage("/signin").defaultSuccessUrl("/chat")
 //                .failureUrl("/signin?error=true")
 //                .permitAll();
-
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -1,4 +1,4 @@
-package com.team4.Transpeur.Entities;
+package com.team4.Transpeur.Model.Entities;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,6 +9,12 @@ import java.util.Set;
 public class TravelSchedule extends AuditModel{
     @Id
     @Column(name="id")
+    @GeneratedValue(generator = "user_generator")
+    @SequenceGenerator(
+            name = "user_generator",
+            sequenceName = "user_sequence",
+            initialValue = 1000
+    )
     private Long id;
 
     @Column(name="description")
@@ -97,4 +103,15 @@ public class TravelSchedule extends AuditModel{
     public void setToTime(Date toTime) {
         this.toTime = toTime;
     }
+
+    public TravelSchedule(String description, String fromPlace, String toPlace, Date fromTime, Date toTime, User user) {
+        this.description = description;
+        this.fromPlace = fromPlace;
+        this.toPlace = toPlace;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
+        this.user = user;
+    }
+
+    public TravelSchedule(){}
 }

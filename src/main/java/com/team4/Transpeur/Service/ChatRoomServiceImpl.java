@@ -1,6 +1,6 @@
 package com.team4.Transpeur.Service;
 
-import com.team4.Transpeur.Entities.ChatRoom;
+import com.team4.Transpeur.Model.Entities.ChatRoom;
 import com.team4.Transpeur.Repositories.ChatRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

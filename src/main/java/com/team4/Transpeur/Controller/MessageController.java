@@ -1,6 +1,6 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Entities.Message;
+import com.team4.Transpeur.Model.Entities.Message;
 import com.team4.Transpeur.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

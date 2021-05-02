@@ -1,6 +1,6 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Entities.Role;
+import com.team4.Transpeur.Model.Entities.Role;
 import com.team4.Transpeur.Repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

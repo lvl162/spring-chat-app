@@ -1,7 +1,7 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Entities.ChatRoom;
-import com.team4.Transpeur.Entities.Message;
+import com.team4.Transpeur.Model.Entities.ChatRoom;
+import com.team4.Transpeur.Model.Entities.Message;
 import com.team4.Transpeur.Payload.Request.ChatMessage;
 import com.team4.Transpeur.Payload.Request.GetChatIdRequest;
 import com.team4.Transpeur.Service.ChatRoomService;
@@ -15,7 +15,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ChatRoomController {

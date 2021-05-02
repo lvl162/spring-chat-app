@@ -1,6 +1,6 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Entities.User;
+import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

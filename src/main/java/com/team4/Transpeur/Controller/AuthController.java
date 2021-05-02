@@ -1,8 +1,8 @@
 package com.team4.Transpeur.Controller;
-
-import com.team4.Transpeur.Entities.ERole;
-import com.team4.Transpeur.Entities.Role;
-import com.team4.Transpeur.Entities.User;
+import com.team4.Transpeur.Model.Entities.ERole;
+import com.team4.Transpeur.Model.Entities.Role;
+import com.team4.Transpeur.Model.Entities.User;
+import com.team4.Transpeur.Payload.Request.ChangePasswordRequest;
 import com.team4.Transpeur.Payload.Request.LoginRequest;
 import com.team4.Transpeur.Payload.Request.SignupRequest;
 import com.team4.Transpeur.Payload.Respone.JwtResponse;
@@ -22,10 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,6 +59,25 @@ public class AuthController {
         ResponseCookie resCookie = ResponseCookie.from("accessToken", null).maxAge(0).path("/")
                 .build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).body("You have signed out");
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changePassword) {
+        Optional<User> user = userService.findByUsername(changePassword.getUsername());
+        if (user.isPresent()) {
+            System.out.println(user.get().getPassword());
+            System.out.println(encoder.encode(changePassword.getOldPassword()));
+            if (encoder.matches(changePassword.getOldPassword(), user.get().getPassword())) {
+                userService.changePassword(user.get(), encoder.encode(changePassword.getNewPassword()));
+                return ResponseEntity.ok(new MessageResponse("Successfully changed the password"));
+            }
+            else {
+                return ResponseEntity.badRequest().body(new MessageResponse("Wrong password"));
+            }
+
+        }
+
+        return ResponseEntity.badRequest().body(new MessageResponse("Username not found"));
     }
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

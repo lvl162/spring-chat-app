@@ -1,7 +1,6 @@
 package com.team4.Transpeur.Service;
 
-import com.team4.Transpeur.Entities.Message;
-import com.team4.Transpeur.Entities.User;
+import com.team4.Transpeur.Model.Entities.Message;
 
 import java.util.List;
 
