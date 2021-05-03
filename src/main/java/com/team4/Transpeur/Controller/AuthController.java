@@ -1,20 +1,25 @@
 package com.team4.Transpeur.Controller;
+
+import com.team4.Transpeur.Model.BO.Payload.Request.ChangePasswordRequest;
+import com.team4.Transpeur.Model.BO.Payload.Request.LoginRequest;
+import com.team4.Transpeur.Model.BO.Payload.Request.SignupRequest;
+import com.team4.Transpeur.Model.BO.Payload.Respone.JwtResponse;
+import com.team4.Transpeur.Model.BO.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Model.Entities.ERole;
+import com.team4.Transpeur.Model.Entities.PasswordResetToken;
 import com.team4.Transpeur.Model.Entities.Role;
 import com.team4.Transpeur.Model.Entities.User;
-import com.team4.Transpeur.Payload.Request.ChangePasswordRequest;
-import com.team4.Transpeur.Payload.Request.LoginRequest;
-import com.team4.Transpeur.Payload.Request.SignupRequest;
-import com.team4.Transpeur.Payload.Respone.JwtResponse;
-import com.team4.Transpeur.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Security.jwt.JwtUtils;
 import com.team4.Transpeur.Security.services.UserDetailsImpl;
+import com.team4.Transpeur.Service.EmailService;
+import com.team4.Transpeur.Service.PasswordResetService;
 import com.team4.Transpeur.Service.RoleService;
 import com.team4.Transpeur.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,11 +27,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import javax.websocket.server.PathParam;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -34,6 +38,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 public class AuthController {
     AuthenticationManager authenticationManager;
+
+    EmailService emailService;
 
     UserService userService;
 
@@ -43,13 +49,19 @@ public class AuthController {
 
     JwtUtils jwtUtils;
 
+    PasswordResetService passwordResetService;
+
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService, PasswordEncoder encoder, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService,
+                          PasswordEncoder encoder, JwtUtils jwtUtils
+            , EmailService emailService, PasswordResetService passwordResetService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.roleService = roleService;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
+        this.emailService = emailService;
+        this.passwordResetService = passwordResetService;
     }
 
     @Autowired
@@ -163,5 +175,46 @@ public class AuthController {
         userService.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<?> processForgotPasswordForm(@RequestParam("email") String userEmail, HttpServletRequest request) {
+
+        // Lookup user in database by e-mail
+        Optional<User> optional = userService.findByEmail(userEmail);
+
+        if (!optional.isPresent()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Email not found"));
+        } else {
+
+            // Generate random 36-character string token for reset password
+            User user = optional.get();
+            PasswordResetToken passwordResetToken = new PasswordResetToken();
+            passwordResetToken.setToken(UUID.randomUUID().toString());
+            passwordResetToken.setUser(user);
+            // Save token to database
+            passwordResetService.save(passwordResetToken);
+
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+
+            // Email message
+            SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
+            passwordResetEmail.setFrom("support@demo.com");
+            passwordResetEmail.setTo(user.getEmail());
+            passwordResetEmail.setSubject("Password Reset Request");
+            passwordResetEmail.setText("To reset your password, click the link below:\n" + appUrl
+                    + "/api/auth/reset?token=" + passwordResetToken.getToken());
+
+            emailService.sendEmail(passwordResetEmail);
+
+            // Add success message to view
+        }
+        return ResponseEntity.ok(new MessageResponse("Reset password email has been sent"));
+    }
+    @GetMapping("/reset")
+    public ResponseEntity<?> resetPassword(@PathParam("token") String token) {
+//        if (passwordResetService.validatePasswordResetToken(token)){
+//
+//        };
+        return null;
     }
 }

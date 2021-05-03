@@ -18,4 +18,6 @@ public interface UserService {
     public void changePassword(User user, String newPassword);
 
     public Optional<User> findByUsername(String username);
+
+    public Optional<User> findByEmail(String email);
 }

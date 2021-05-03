@@ -1,4 +1,4 @@
-package com.team4.Transpeur.Payload.Respone;
+package com.team4.Transpeur.Model.BO.Payload.Respone;
 
 import java.util.List;
 

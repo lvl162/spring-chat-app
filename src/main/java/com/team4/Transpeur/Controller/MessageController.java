@@ -1,20 +1,16 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Model.Entities.Message;
-import com.team4.Transpeur.Payload.Respone.MessageDAO;
-import com.team4.Transpeur.Payload.Respone.MessageResponse;
-import com.team4.Transpeur.Repositories.ChatRoomRepository;
+import com.team4.Transpeur.Model.BO.MessageBO;
+import com.team4.Transpeur.Model.BO.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Service.ChatRoomService;
 import com.team4.Transpeur.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -31,7 +27,7 @@ public class MessageController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMessageById(@PathVariable("id") Long id) {
-        Optional<MessageDAO> message = messageService.findById(id);
+        Optional<MessageBO> message = messageService.findById(id);
         if (message.isPresent()) {
             return ResponseEntity.ok().body(message);
         }
@@ -39,12 +35,12 @@ public class MessageController {
     }
 
     @GetMapping("/all")
-    public List<MessageDAO> getAllMessages() {
+    public List<MessageBO> getAllMessages() {
         return messageService.findAll();
     }
     @GetMapping("/user/{username}")
     public ResponseEntity<?> getMessageByUsername(@PathVariable("username") String username) {
-        List<MessageDAO> message = messageService.findByUsername(username);
+        List<MessageBO> message = messageService.findByUsername(username);
         if (message.size()>0) {
             return ResponseEntity.ok().body(message);
         }
@@ -53,11 +49,11 @@ public class MessageController {
 
     @GetMapping("/chatroom/{id}")
     public ResponseEntity<?> getMessageByUsername(@PathVariable("id") Long id) {
-        List<MessageDAO> messages = chatRoomService.findById(id).get().getMessages().stream()
-                .map(message -> new MessageDAO(message.getId(), message.getChatRoom().getId(), message.getCreator().getId(), message.getCreator().getUsername(),message.getContent(),
-                        message.getMessageType() , message.getCreatedAt())).sorted(new Comparator<MessageDAO>() {
+        List<MessageBO> messages = chatRoomService.findById(id).get().getMessages().stream()
+                .map(message -> new MessageBO(message.getId(), message.getChatRoom().getId(), message.getCreator().getId(), message.getCreator().getUsername(),message.getContent(),
+                        message.getMessageType() , message.getCreatedAt())).sorted(new Comparator<MessageBO>() {
                     @Override
-                    public int compare(MessageDAO o1, MessageDAO o2) {
+                    public int compare(MessageBO o1, MessageBO o2) {
                         return o1.getCreatedAt().compareTo(o2.getCreatedAt());
                     }
                 }).collect(Collectors.toList());

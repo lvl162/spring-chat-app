@@ -1,4 +1,4 @@
-package com.team4.Transpeur.bean;
+package com.team4.Transpeur.Model.bean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

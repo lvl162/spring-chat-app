@@ -1,4 +1,4 @@
-package com.team4.Transpeur.bean;
+package com.team4.Transpeur.Model.bean;
 
 
 public class MessageBean {

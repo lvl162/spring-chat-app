@@ -1,10 +1,10 @@
-package com.team4.Transpeur.Payload.Respone;
+package com.team4.Transpeur.Model.BO;
 
 import com.team4.Transpeur.Model.Entities.Message;
 
 import java.util.Date;
 
-public class MessageDAO {
+public class MessageBO {
     private Long id;
     private Long chatRoomId;
     private Long creatorId;
@@ -68,7 +68,7 @@ public class MessageDAO {
         this.creatorName = creatorName;
     }
 
-    public MessageDAO(Long id, Long chatRoomId, Long creatorId, String creatorName, String content, Message.MessageType type, Date createdAt) {
+    public MessageBO(Long id, Long chatRoomId, Long creatorId, String creatorName, String content, Message.MessageType type, Date createdAt) {
         this.id = id;
         this.chatRoomId = chatRoomId;
         this.creatorId = creatorId;

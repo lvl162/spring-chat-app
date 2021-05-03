@@ -1,4 +1,4 @@
-package com.team4.Transpeur.Payload.Respone;
+package com.team4.Transpeur.Model.BO.Payload.Respone;
 
 public class MessageResponse {
     private String message;

@@ -1,4 +1,4 @@
-package com.team4.Transpeur.Payload.Request;
+package com.team4.Transpeur.Model.BO.Payload.Request;
 
 import javax.validation.constraints.NotBlank;
 
