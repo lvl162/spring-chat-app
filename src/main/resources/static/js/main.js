@@ -4,6 +4,7 @@ script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js';
 script.type = 'text/javascript';
 document.getElementsByTagName('head')[0].appendChild(script);
 
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -24,14 +25,14 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('#connecting');
 
+// var message =
+
 var stompClient = null;
 var username = null;
 var id = getCookie('uid');
 var uname = getCookie('uname');
 var chatId = null;
 var recipientId = location.search.split('to=')[1]
-
-
 
 function connect() {
     username = document.querySelector('#username').innerText.trim();
@@ -57,6 +58,35 @@ function onConnected() {
             console.log(data)
             if (status == "success") {
                 chatId = data.id;
+                $.ajax({
+                    url: "/api/messages/chatroom/" + chatId,
+                    type:'get',
+                    contentType : 'application/json',
+                    success:function(data, status){
+
+                        for (let i=0; i<data.length; i++) {
+                            var messageElement = document.createElement('li');
+                            console.log(data[i].content,
+                            data[i].creatorName, data[i].createdAt)
+                            messageElement.classList.add('chat-message');
+                            var usernameElement = document.createElement('strong');
+                            usernameElement.classList.add('nickname');
+                            var usernameText = document.createTextNode( data[i].creatorName);
+                            usernameElement.appendChild(usernameText);
+                            messageElement.appendChild(usernameElement);
+
+                            var textElement = document.createElement('span');
+                            var messageText = document.createTextNode( data[i].content + " " + data[i].createdAt);
+                            textElement.appendChild(messageText);
+
+                            messageElement.appendChild(textElement);
+
+                            messageArea.appendChild(messageElement);
+                            messageArea.scrollTop = messageArea.scrollHeight;
+                        }
+                        // console.log(data)
+                    }
+                });
                 stompClient.subscribe('/topic/' + data.id + '/queue/messages', onMessageReceived);
 
 
@@ -71,6 +101,7 @@ function onConnected() {
             else alert("loi me roi dcmmm");
         }
     });
+
 
 
 }
@@ -132,7 +163,6 @@ function onMessageReceived(payload) {
         messageElement.classList.add('chat-message');
         var usernameElement = document.createElement('strong');
         usernameElement.classList.add('nickname');
-        var usernameText = document.createTextNode(message.senderName);
         var usernameText = document.createTextNode(message.senderName);
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);

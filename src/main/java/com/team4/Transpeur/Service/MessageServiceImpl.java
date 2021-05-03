@@ -1,17 +1,19 @@
 package com.team4.Transpeur.Service;
 
 import com.team4.Transpeur.Model.Entities.Message;
+import com.team4.Transpeur.Payload.Respone.MessageDAO;
 import com.team4.Transpeur.Repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageServiceImpl implements MessageService{
 
     final MessageRepository messageRepository;
-
     @Autowired
     public MessageServiceImpl(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
@@ -20,7 +22,23 @@ public class MessageServiceImpl implements MessageService{
     public Message save(Message message) {
         return messageRepository.saveAndFlush(message);
     }
-    public List<Message> findAll() {
-        return messageRepository.findAll();
-    };
+    public List<MessageDAO> findAll() {
+        return messageRepository.findAll().stream().map(message -> new MessageDAO(message.getId(), message.getChatRoom().getId(), message.getCreator().getId(),message.getCreator().getUsername(),message.getContent(),
+                message.getMessageType() , message.getCreatedAt())).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<MessageDAO> findById(Long id) {
+        Optional<Message> message = messageRepository.findById(id);
+        return message.map(value -> new MessageDAO(value.getId(), value.getChatRoom().getId(), value.getCreator().getId(), value.getCreator().getUsername(), value.getContent(),
+                value.getMessageType(), value.getCreatedAt()));
+    }
+
+    @Override
+    public List<MessageDAO> findByUsername(String username) {
+        return messageRepository.findAll().stream().filter(m -> m.getCreator().getUsername().equals(username))
+                .map(message -> new MessageDAO(message.getId(), message.getChatRoom().getId(), message.getCreator().getId(),message.getCreator().getUsername(),message.getContent(),
+                        message.getMessageType() , message.getCreatedAt()))
+                .collect(Collectors.toList());
+    }
 }

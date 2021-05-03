@@ -1,5 +1,7 @@
 package com.team4.Transpeur.Model.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +19,7 @@ public class Message extends AuditModel {
 
     @ManyToOne
     @JoinColumn(name="creator_id", nullable = false)
+    @JsonBackReference
     private User creator;
 
 //    @ManyToOne
@@ -24,6 +27,7 @@ public class Message extends AuditModel {
 //    private Conversation conversation;
     @ManyToOne
     @JoinColumn(name="chatroom_id", nullable = false)
+    @JsonBackReference
     private ChatRoom chatRoom;
     public enum MessageType {
         CHAT, JOIN, LEAVE

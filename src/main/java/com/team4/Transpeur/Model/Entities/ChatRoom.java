@@ -1,5 +1,7 @@
 package com.team4.Transpeur.Model.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 @Entity
@@ -19,6 +21,7 @@ public class ChatRoom extends AuditModel{
     @Column(name="userB_id", nullable = false)
     private Long bUserId;
     @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Message> messages;
 
     public ChatRoom() {
