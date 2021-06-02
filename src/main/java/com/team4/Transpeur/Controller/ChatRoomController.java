@@ -2,8 +2,8 @@ package com.team4.Transpeur.Controller;
 
 import com.team4.Transpeur.Model.Entities.ChatRoom;
 import com.team4.Transpeur.Model.Entities.Message;
-import com.team4.Transpeur.Model.BO.Payload.Request.ChatMessage;
-import com.team4.Transpeur.Model.BO.Payload.Request.GetChatIdRequest;
+import com.team4.Transpeur.Model.DTO.Payload.Request.ChatMessage;
+import com.team4.Transpeur.Model.DTO.Payload.Request.GetChatIdRequest;
 import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Service.ChatRoomService;
 import com.team4.Transpeur.Service.MessageService;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ChatRoomController {

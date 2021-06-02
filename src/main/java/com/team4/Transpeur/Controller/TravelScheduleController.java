@@ -2,8 +2,8 @@ package com.team4.Transpeur.Controller;
 
 import com.team4.Transpeur.Model.Entities.TravelSchedule;
 import com.team4.Transpeur.Model.Entities.User;
-import com.team4.Transpeur.Model.BO.Payload.Request.TravelScheduleRequest;
-import com.team4.Transpeur.Model.BO.Payload.Respone.MessageResponse;
+import com.team4.Transpeur.Model.DTO.Payload.Request.TravelScheduleRequest;
+import com.team4.Transpeur.Model.DTO.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Service.TravelScheduleService;
 import com.team4.Transpeur.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

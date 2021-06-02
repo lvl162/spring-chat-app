@@ -1,9 +1,7 @@
 package com.team4.Transpeur.Controller;
 
 import com.team4.Transpeur.Model.BO.MessageBO;
-import com.team4.Transpeur.Model.BO.Payload.Respone.MessageResponse;
-import com.team4.Transpeur.Model.Entities.Message;
-import com.team4.Transpeur.Model.Entities.User;
+import com.team4.Transpeur.Model.DTO.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Service.ChatRoomService;
 import com.team4.Transpeur.Service.MessageService;
 import com.team4.Transpeur.Service.UserService;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)

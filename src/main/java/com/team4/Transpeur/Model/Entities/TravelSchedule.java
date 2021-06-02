@@ -83,6 +83,22 @@ public class TravelSchedule extends AuditModel{
         this.fromPlace = fromPlace;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
+    }
+
     public String getToPlace() {
         return toPlace;
     }

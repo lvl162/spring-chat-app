@@ -1,5 +1,6 @@
 package com.team4.Transpeur.Controller;
 
+import com.team4.Transpeur.Model.DTO.UserDTO;
 import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Repositories.UserRepository;
 import com.team4.Transpeur.Service.UserService;
@@ -25,21 +26,23 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public Page<User> getUsers(Pageable pageable) {
+    public Page<UserDTO> getUsers(Pageable pageable) {
 
-        return userService.findPageUser(pageable);
+        Page<User> p =  userService.findPageUser(pageable);
+
+        return p.map(m-> new UserDTO(m));
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+    public UserDTO getUserById(@PathVariable("id") Long id) {
+        return new UserDTO(userService.findById(id).get());
 
     }
 
     @GetMapping("paging")
     public ResponseEntity<?> getPageUser(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
         Pageable users = PageRequest.of( pageNo,pageSize);
-        Page<User> page = userService.findPageUser(users);
+        Page<UserDTO> page = userService.findPageUser(users).map(m-> new UserDTO(m));
         return ResponseEntity.ok().body(page);
     }
 }

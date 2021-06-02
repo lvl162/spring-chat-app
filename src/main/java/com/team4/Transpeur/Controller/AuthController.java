@@ -1,10 +1,10 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Model.BO.Payload.Request.ChangePasswordRequest;
-import com.team4.Transpeur.Model.BO.Payload.Request.LoginRequest;
-import com.team4.Transpeur.Model.BO.Payload.Request.SignupRequest;
-import com.team4.Transpeur.Model.BO.Payload.Respone.JwtResponse;
-import com.team4.Transpeur.Model.BO.Payload.Respone.MessageResponse;
+import com.team4.Transpeur.Model.DTO.Payload.Request.ChangePasswordRequest;
+import com.team4.Transpeur.Model.DTO.Payload.Request.LoginRequest;
+import com.team4.Transpeur.Model.DTO.Payload.Request.SignupRequest;
+import com.team4.Transpeur.Model.DTO.Payload.Respone.JwtResponse;
+import com.team4.Transpeur.Model.DTO.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Model.Entities.ERole;
 import com.team4.Transpeur.Model.Entities.PasswordResetToken;
 import com.team4.Transpeur.Model.Entities.Role;

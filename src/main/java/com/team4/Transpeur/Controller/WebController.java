@@ -1,6 +1,6 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Model.DTO.UserDto;
+import com.team4.Transpeur.Model.DTO.UserDTO;
 import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class WebController {
     }
     @GetMapping("/user/registration")
     public String showRegistrationForm(WebRequest request, Model model) {
-        UserDto userDto = new UserDto();
+        UserDTO userDto = new UserDTO();
         model.addAttribute("user", userDto);
         return "registration";
     }
