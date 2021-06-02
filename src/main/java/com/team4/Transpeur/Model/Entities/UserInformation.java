@@ -1,10 +1,12 @@
 package com.team4.Transpeur.Model.Entities;
 
+import com.team4.Transpeur.Model.DTO.UserInformationDTO;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "informationauthentication", schema = "public")
-public class InformationAuthentication extends AuditModel{
+public class UserInformation extends AuditModel{
     @Id
     @Column(name="user_id")
     private Long id;
@@ -16,7 +18,38 @@ public class InformationAuthentication extends AuditModel{
     public String address;
     @Column(name="level")
     public Integer level;
+    public UserInformation(UserInformationDTO userInformationDTO) {
+        this.idCardNumber = userInformationDTO.getIdCardNumber();
+        this.phoneNumber = userInformationDTO.getPhoneNumber();
+        this.firstName = userInformationDTO.getFirstName();
+        this.lastName = userInformationDTO.getLastName();
+        this.level = userInformationDTO.getLevel();
+    }
 
+    public UserInformation() {
+
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Column(name="firstname")
+    public String firstName;
+    @Column(name="lastname")
+    public String lastName;
     @OneToOne
     @MapsId
     @JoinColumn(name="user_id")

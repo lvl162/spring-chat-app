@@ -57,5 +57,6 @@ public class MessageDTO {
         this.createdAt = message.getCreatedAt();
         this.id = message.getId();
         this.senderId = message.getCreator().getId();
+        this.senderName = message.getCreator().getUsername();
     }
 }

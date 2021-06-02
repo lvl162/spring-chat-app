@@ -9,19 +9,18 @@ import java.util.Optional;
 
 public interface UserService {
 
-    public boolean existsByUsername(String userName);
+    boolean existsByUsername(String userName);
 
-    public User save(User user);
+    User save(User user);
 
-    public boolean existsByEmail(String email);
-    public Optional<User> findById(Long id);
-    public List<User> findAll();
-//    public boolean validUserPassword(User user, String newPassword);
-    public void changePassword(User user, String newPassword);
+    boolean existsByEmail(String email);
+    Optional<User> findById(Long id);
+    List<User> findAll();
+    void changePassword(User user, String newPassword);
 
-    public Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
-    public Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    public Page<User> findPageUser(Pageable pageable);
+    Page<User> findPageUser(Pageable pageable);
 }

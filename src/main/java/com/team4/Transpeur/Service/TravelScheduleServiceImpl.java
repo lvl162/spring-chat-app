@@ -3,6 +3,8 @@ package com.team4.Transpeur.Service;
 import com.team4.Transpeur.Model.Entities.TravelSchedule;
 import com.team4.Transpeur.Repositories.TravelScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,5 +32,15 @@ public class TravelScheduleServiceImpl implements TravelScheduleService{
     @Override
     public Optional<TravelSchedule> findById(Long id) {
         return travelScheduleRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        travelScheduleRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<TravelSchedule> findAll(Pageable pageable) {
+        return travelScheduleRepository.findAll(pageable);
     }
 }

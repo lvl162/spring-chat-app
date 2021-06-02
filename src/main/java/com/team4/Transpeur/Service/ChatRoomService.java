@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ChatRoomService {
-    public ChatRoom findBySenderIdAndRecipientId(Long senderId, Long recipientId, boolean createIfNotExist);
-    public Optional<ChatRoom> findById(Long id);
-    public List<User> finByUserId(Long id);
+    ChatRoom findBySenderIdAndRecipientId(Long senderId, Long recipientId, boolean createIfNotExist);
+    Optional<ChatRoom> findById(Long id);
+    List<User> finByUserId(Long id);
 }

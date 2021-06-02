@@ -1,6 +1,6 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Model.BO.MessageBO;
+import com.team4.Transpeur.Model.DTO.MessageDTO;
 import com.team4.Transpeur.Model.DTO.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Service.ChatRoomService;
 import com.team4.Transpeur.Service.MessageService;
@@ -30,7 +30,8 @@ public class MessageController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMessageById(@PathVariable("id") Long id) {
-        Optional<MessageBO> message = messageService.findById(id);
+        Optional<MessageDTO> message = messageService.findById(id)
+                .map(m -> new MessageDTO(m));
         if (message.isPresent()) {
             return ResponseEntity.ok().body(message);
         }
@@ -38,13 +39,19 @@ public class MessageController {
     }
 
     @GetMapping("/all")
-    public List<MessageBO> getAllMessages() {
-        return messageService.findAll();
+    public List<MessageDTO> getAllMessages() {
+        return messageService.findAll()
+                .stream()
+                .map(m -> new MessageDTO(m))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/uname/{username}")
     public ResponseEntity<?> getMessageByUsername(@PathVariable("username") String username) {
-        List<MessageBO> message = messageService.findByUsername(username);
+        List<MessageDTO> message = messageService.findByUsername(username)
+                .stream()
+                .map(m -> new MessageDTO(m))
+                .collect(Collectors.toList());;
         if (message.size()>0) {
             return ResponseEntity.ok().body(message);
         }
@@ -69,11 +76,10 @@ public class MessageController {
 //    }
     @GetMapping("/chatroom/{id}")
     public ResponseEntity<?> getMessageByUsername(@PathVariable("id") Long id) {
-        List<MessageBO> messages = chatRoomService.findById(id).get().getMessages().stream()
-                .map(message -> new MessageBO(message.getId(), message.getChatRoom().getId(), message.getCreator().getId(), message.getCreator().getUsername(),message.getContent(),
-                        message.getMessageType() , message.getCreatedAt())).sorted(new Comparator<MessageBO>() {
+        List<MessageDTO> messages = chatRoomService.findById(id).get().getMessages().stream()
+                .map(message -> new MessageDTO(message)).sorted(new Comparator<MessageDTO>() {
                     @Override
-                    public int compare(MessageBO o1, MessageBO o2) {
+                    public int compare(MessageDTO o1, MessageDTO o2) {
                         return o1.getCreatedAt().compareTo(o2.getCreatedAt());
                     }
                 }).collect(Collectors.toList());

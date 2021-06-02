@@ -1,5 +1,7 @@
 package com.team4.Transpeur.Controller;
 
+import com.team4.Transpeur.Model.DTO.ChatRoomDTO;
+import com.team4.Transpeur.Model.DTO.UserDTO;
 import com.team4.Transpeur.Model.Entities.ChatRoom;
 import com.team4.Transpeur.Model.Entities.Message;
 import com.team4.Transpeur.Model.DTO.Payload.Request.ChatMessage;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ChatRoomController {
@@ -52,19 +55,21 @@ public class ChatRoomController {
 
     @PostMapping("/api/getChatId")
     public ResponseEntity<?> getChatId(@RequestBody GetChatIdRequest getChatIdRequest) {
-        ChatRoom chat = chatRoomService
-                .findBySenderIdAndRecipientId(getChatIdRequest.getSenderId(), getChatIdRequest.getRecipientId(), true);
-        chat.setMessages(null);
-        return ResponseEntity.ok(chat);
+        ChatRoomDTO chat = new ChatRoomDTO(chatRoomService
+                .findBySenderIdAndRecipientId(getChatIdRequest.getSenderId(), getChatIdRequest.getRecipientId(), true));
+        return ResponseEntity.ok().body(chat);
     }
 
     @GetMapping("/api/chatroom/me/{id}")
     public ResponseEntity<?> getAllChatedUser(@PathVariable("id") Long id)
     {
 
-        List<User> chatedUser = chatRoomService.finByUserId(id);
+        List<UserDTO> chatedUser = chatRoomService.finByUserId(id)
+                .stream()
+                .map(m -> new UserDTO(m))
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(chatedUser);
+        return ResponseEntity.ok().body(chatedUser);
 
     }
 }

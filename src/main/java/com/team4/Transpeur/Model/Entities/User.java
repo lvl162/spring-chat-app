@@ -83,12 +83,12 @@ public class User extends AuditModel {
     // Info Auth
     @OneToOne(mappedBy = "user", cascade=CascadeType.DETACH)
     @PrimaryKeyJoinColumn
-    private InformationAuthentication inAu;
-    public InformationAuthentication getInAu() {
+    private UserInformation inAu;
+    public UserInformation getInAu() {
         return inAu;
     }
 
-    public void setInAu(InformationAuthentication inAu) {
+    public void setInAu(UserInformation inAu) {
         this.inAu = inAu;
     }
 
