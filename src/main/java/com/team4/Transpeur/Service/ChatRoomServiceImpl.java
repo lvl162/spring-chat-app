@@ -1,17 +1,23 @@
 package com.team4.Transpeur.Service;
 
 import com.team4.Transpeur.Model.Entities.ChatRoom;
+import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Repositories.ChatRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService{
     final ChatRoomRepository chatRoomRepository;
+    final UserService userService;
     @Autowired
-    public ChatRoomServiceImpl(ChatRoomRepository chatRoomRepository) {
+    public ChatRoomServiceImpl(ChatRoomRepository chatRoomRepository, UserService userService) {
         this.chatRoomRepository = chatRoomRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -31,5 +37,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     @Override
     public Optional<ChatRoom> findById(Long id) {
         return chatRoomRepository.findById(id);
+    }
+
+    @Override
+    public List<User> finByUserId(Long id) {
+        return chatRoomRepository.findAll().stream()
+                .filter(chatRoom -> chatRoom.getaUserId().equals(id) || chatRoom.getbUserId().equals(id))
+                .map(chatRoom -> userService.findById(chatRoom.getaUserId().equals(id) ? chatRoom.getbUserId() : id).get())
+                .distinct()
+                .collect(Collectors.toList());
     }
 }

@@ -93,15 +93,16 @@ public class User extends AuditModel {
     }
 
     // messages
-//    @OneToMany(mappedBy="user")
-//    private Set<Message> messages;
-//    public Set<Message> getMessages() {
-//        return messages;
-//    }
-//
-//    public void setMessages(Set<Message> messages) {
-//        this.messages = messages;
-//    }
+    @OneToMany(mappedBy="creator")
+    @JsonManagedReference
+    private Set<Message> messages;
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
 
     // participants
 //    @OneToMany(mappedBy="user")
@@ -117,6 +118,7 @@ public class User extends AuditModel {
 
     //travel schedules
     @OneToMany(mappedBy="user")
+    @JsonManagedReference
     private Set<TravelSchedule> travelSchedules;
     public Set<TravelSchedule> getTravelSchedules() {
         return travelSchedules;
@@ -129,6 +131,7 @@ public class User extends AuditModel {
     // reports
 
     @OneToMany(mappedBy="user")
+    @JsonManagedReference
     private Set<Report> reports;
     public Set<Report> getReports() {
         return reports;

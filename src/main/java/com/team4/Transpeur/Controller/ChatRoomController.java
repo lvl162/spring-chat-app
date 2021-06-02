@@ -4,6 +4,7 @@ import com.team4.Transpeur.Model.Entities.ChatRoom;
 import com.team4.Transpeur.Model.Entities.Message;
 import com.team4.Transpeur.Model.BO.Payload.Request.ChatMessage;
 import com.team4.Transpeur.Model.BO.Payload.Request.GetChatIdRequest;
+import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Service.ChatRoomService;
 import com.team4.Transpeur.Service.MessageService;
 import com.team4.Transpeur.Service.UserService;
@@ -13,8 +14,13 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ChatRoomController {
@@ -53,4 +59,13 @@ public class ChatRoomController {
         return ResponseEntity.ok(chat);
     }
 
+    @GetMapping("/api/chatroom/me/{id}")
+    public ResponseEntity<?> getAllChatedUser(@PathVariable("id") Long id)
+    {
+
+        List<User> chatedUser = chatRoomService.finByUserId(id);
+
+        return ResponseEntity.ok(chatedUser);
+
+    }
 }

@@ -1,6 +1,8 @@
 package com.team4.Transpeur.Service;
 
 import com.team4.Transpeur.Model.Entities.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +11,7 @@ public interface UserService {
 
     public boolean existsByUsername(String userName);
 
-    public void save(User user);
+    public User save(User user);
 
     public boolean existsByEmail(String email);
     public Optional<User> findById(Long id);
@@ -20,4 +22,6 @@ public interface UserService {
     public Optional<User> findByUsername(String username);
 
     public Optional<User> findByEmail(String email);
+
+    public Page<User> findPageUser(Pageable pageable);
 }

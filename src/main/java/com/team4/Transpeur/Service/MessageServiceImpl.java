@@ -41,4 +41,5 @@ public class MessageServiceImpl implements MessageService{
                         message.getMessageType() , message.getCreatedAt()))
                 .collect(Collectors.toList());
     }
+
 }

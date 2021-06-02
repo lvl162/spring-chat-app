@@ -3,6 +3,8 @@ package com.team4.Transpeur.Service;
 import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,8 @@ public class UserServiceImpl implements UserService{
         return userRepository.existsByUsername(userName);
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.saveAndFlush(user);
     }
 
     public boolean existsByEmail(String email) {
@@ -53,4 +55,10 @@ public class UserServiceImpl implements UserService{
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public Page<User> findPageUser(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
 }

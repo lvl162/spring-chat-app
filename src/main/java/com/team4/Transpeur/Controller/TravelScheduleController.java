@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -43,6 +44,14 @@ public class TravelScheduleController {
         return ResponseEntity.ok(new MessageResponse("New travel schedule successfully posted"));
     }
 
+    @GetMapping("/uid/{id}")
+    public ResponseEntity<?> getPostsByUid(@PathVariable("id") Long id) {
+            Set<TravelSchedule> travelScheduleSet = userService.findById(id).get().getTravelSchedules();
+            if (travelScheduleSet != null)
+            return ResponseEntity.ok().body(travelScheduleSet);
+        return ResponseEntity.badRequest().body(new MessageResponse("Not found"));
+
+    }
     @GetMapping("/all")
     public List<TravelSchedule> getAll() {
         return travelScheduleService.findAll();

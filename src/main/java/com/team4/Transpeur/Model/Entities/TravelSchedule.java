@@ -1,5 +1,7 @@
 package com.team4.Transpeur.Model.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -32,6 +34,7 @@ public class TravelSchedule extends AuditModel{
     @Column(name="to_time")
     private Date toTime;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private User user;

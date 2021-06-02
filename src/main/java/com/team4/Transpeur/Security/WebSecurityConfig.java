@@ -72,6 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/index", "/", "/login","/signin").permitAll()
                 .anyRequest().authenticated();
+        http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(1296000);
+
         http.authorizeRequests().and().formLogin()//
                 .loginProcessingUrl("/j_spring_security_login")//
                 .loginPage("/login")//

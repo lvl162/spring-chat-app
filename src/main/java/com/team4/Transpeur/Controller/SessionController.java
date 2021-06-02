@@ -20,9 +20,11 @@ public class SessionController {
     @Autowired
     private SessionRegistry sessionRegistry;
 
-    @GetMapping("/api/sessions/")
+    @GetMapping("/api/sessions")
     @ResponseBody
     public List<SessionInformation> sessions(Authentication authentication, ModelMap model) {
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        System.out.println(user.getId());
         List<SessionInformation> sessions = sessionRegistry.getAllSessions(authentication.getPrincipal(),
                 true);
         model.put("sessions", sessions);
