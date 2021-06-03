@@ -35,7 +35,7 @@ public class User extends AuditModel {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "is_active", columnDefinition = "boolean default false")
+    @Column(name = "is_active", columnDefinition = "boolean default true")
     private boolean is_active;
 
     @Column(name = "is_blocked", columnDefinition = "boolean default false")

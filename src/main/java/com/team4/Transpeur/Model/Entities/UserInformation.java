@@ -11,19 +11,32 @@ public class UserInformation extends AuditModel{
     @Column(name="user_id")
     private Long id;
     @Column(name="id_card_number")
-    public String idCardNumber;
+    private String idCardNumber;
     @Column(name="phone_number")
-    public String phoneNumber;
+    private String phoneNumber;
     @Column(name="address")
-    public String address;
+    private String address;
     @Column(name="level")
-    public Integer level;
+    private Integer level;
+
+    public boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    @Column(name="gender", columnDefinition = "boolean default true")
+    private Boolean gender;
+
     public UserInformation(UserInformationDTO userInformationDTO) {
         this.idCardNumber = userInformationDTO.getIdCardNumber();
         this.phoneNumber = userInformationDTO.getPhoneNumber();
         this.firstName = userInformationDTO.getFirstName();
         this.lastName = userInformationDTO.getLastName();
         this.level = userInformationDTO.getLevel();
+        this.gender = userInformationDTO.getGender();
     }
 
     public UserInformation() {

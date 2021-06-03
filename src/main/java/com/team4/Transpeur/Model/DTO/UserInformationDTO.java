@@ -11,6 +11,15 @@ public class UserInformationDTO {
     public Integer level;
     public String firstName;
     public String lastName;
+    public Boolean gender;
+
+    public boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
 
     public UserInformationDTO(){}
     public UserInformationDTO(UserInformation userInformation) {
@@ -21,6 +30,7 @@ public class UserInformationDTO {
         this.level = userInformation.getLevel();
         this.firstName = userInformation.getFirstName();
         this.lastName = userInformation.getLastName();
+        this.gender = userInformation.getGender();
     }
     public Long getId() {
         return id;

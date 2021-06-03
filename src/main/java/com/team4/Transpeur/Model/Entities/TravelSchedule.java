@@ -1,6 +1,8 @@
 package com.team4.Transpeur.Model.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,23 +22,29 @@ public class TravelSchedule extends AuditModel{
     private Long id;
 
     @Column(name="description")
+//    @Field
     private String description;
     @Column(name="likes")
     private Integer likes;
     @Column(name="seen_times")
     private Integer seenTimes;
     @Column(name="from_place")
+//    @Field
     private String fromPlace;
     @Column(name="to_place")
+//    @Field
     private String toPlace;
     @Column(name="from_time")
+//    @Field
     private Date fromTime;
     @Column(name="to_time")
+//    @Field
     private Date toTime;
 
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
+//    @Field
     private User user;
 
     @OneToMany()

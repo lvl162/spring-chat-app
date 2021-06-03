@@ -40,6 +40,7 @@ public class UserInformationController {
             userInformation1.setPhoneNumber(userInformation.getPhoneNumber());
             userInformation1.setIdCardNumber(userInformation.getIdCardNumber());
             userInformation1.setUser(userService.findById(userInformation.getId()).get());
+            userInformation1.setGender(userInformation.getGender());
             return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.save(userInformation1)));
         } else {
             UserInformation userInformation1 = new UserInformation(userInformation);
