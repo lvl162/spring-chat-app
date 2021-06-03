@@ -30,10 +30,10 @@ public class TravelSchedule extends AuditModel{
     @Column(name="seen_times")
     private Integer seenTimes;
     @Column(name="from_place")
-//    @Field
+    @Field
     private String fromPlace;
     @Column(name="to_place")
-//    @Field
+    @Field
     private String toPlace;
     @Column(name="from_time")
 //    @Field
@@ -51,6 +51,7 @@ public class TravelSchedule extends AuditModel{
     }
 
     @Column(name="transport")
+    @Field
     private String transport;
     @JsonBackReference
     @ManyToOne

@@ -19,6 +19,20 @@ public class UserInformation extends AuditModel{
     @Column(name="level")
     private Integer level;
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
+
+    @Column(name="age")
+    private Integer age;
     public boolean getGender() {
         return gender;
     }
@@ -37,6 +51,7 @@ public class UserInformation extends AuditModel{
         this.lastName = userInformationDTO.getLastName();
         this.level = userInformationDTO.getLevel();
         this.gender = userInformationDTO.getGender();
+        this.age = userInformationDTO.getAge();
     }
 
     public UserInformation() {

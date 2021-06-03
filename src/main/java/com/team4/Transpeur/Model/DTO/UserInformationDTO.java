@@ -5,13 +5,26 @@ import com.team4.Transpeur.Model.Entities.UserInformation;
 public class UserInformationDTO {
 
     private Long id;
-    public String idCardNumber;
-    public String phoneNumber;
-    public String address;
-    public Integer level;
-    public String firstName;
-    public String lastName;
-    public Boolean gender;
+    private String idCardNumber;
+    private String phoneNumber;
+    private String address;
+    private Integer level;
+    private String firstName;
+    private String lastName;
+    private Boolean gender;
+    private Integer age;
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public boolean getGender() {
         return gender;
@@ -31,6 +44,7 @@ public class UserInformationDTO {
         this.firstName = userInformation.getFirstName();
         this.lastName = userInformation.getLastName();
         this.gender = userInformation.getGender();
+        this.age = userInformation.getAge();
     }
     public Long getId() {
         return id;

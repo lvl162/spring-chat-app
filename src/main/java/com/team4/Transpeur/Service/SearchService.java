@@ -41,7 +41,7 @@ public class SearchService {
         QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder()
                 .forEntity(TravelSchedule.class)
                 .get();
-        Query foodQuery = qb.keyword().onFields("description").matching(word).createQuery();
+        Query foodQuery = qb.keyword().onFields("description", "fromPlace", "toPlace", "transport").matching("" + word + "").createQuery();
         FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(foodQuery, TravelSchedule.class);
         return (List<TravelSchedule>) fullTextQuery.getResultList();
     }
