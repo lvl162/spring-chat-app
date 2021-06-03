@@ -1,8 +1,8 @@
 package com.team4.Transpeur.Model.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
+//import org.hibernate.search.annotations.Field;
+//import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.Date;
