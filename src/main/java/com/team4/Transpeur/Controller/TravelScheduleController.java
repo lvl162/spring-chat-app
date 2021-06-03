@@ -57,7 +57,7 @@ public class TravelScheduleController {
         }
     }
     @PostMapping("/new")
-    public ResponseEntity<?> newTravel(@Valid @RequestBody TravelScheduleRequest travel) {
+    public ResponseEntity<?> newTravel(@Valid @RequestBody TravelScheduleDTO travel) {
         Optional<User> creator = userService.findById(travel.getCreatorId());
         if (!creator.isPresent()) {
             return ResponseEntity
@@ -65,7 +65,7 @@ public class TravelScheduleController {
                     .body(new MessageResponse("Error: Creator not found"));
         }
         TravelSchedule travelSchedule = new TravelSchedule(travel.getDescription(), travel.getFromPlace(), travel.getToPlace()
-        , travel.getFromTime(), travel.getToTime(), creator.get());
+        , travel.getFromTime(), travel.getToTime(), creator.get(), travel.getTransport());
 
         travelScheduleService.save(travelSchedule);
 

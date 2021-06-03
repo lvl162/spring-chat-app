@@ -1,8 +1,8 @@
 package com.team4.Transpeur.Model.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-//import org.hibernate.search.annotations.Field;
-//import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Field;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="travelschedule", schema = "public")
+@Indexed(index="idx_trvsch")
 public class TravelSchedule extends AuditModel{
     @Id
     @Column(name="id")
@@ -22,7 +23,7 @@ public class TravelSchedule extends AuditModel{
     private Long id;
 
     @Column(name="description")
-//    @Field
+    @Field
     private String description;
     @Column(name="likes")
     private Integer likes;
@@ -41,6 +42,16 @@ public class TravelSchedule extends AuditModel{
 //    @Field
     private Date toTime;
 
+    public String getTransport() {
+        return transport;
+    }
+
+    public void setTransport(String transport) {
+        this.transport = transport;
+    }
+
+    @Column(name="transport")
+    private String transport;
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
@@ -131,13 +142,14 @@ public class TravelSchedule extends AuditModel{
         this.toTime = toTime;
     }
 
-    public TravelSchedule(String description, String fromPlace, String toPlace, Date fromTime, Date toTime, User user) {
+    public TravelSchedule(String description, String fromPlace, String toPlace, Date fromTime, Date toTime, User user, String transport) {
         this.description = description;
         this.fromPlace = fromPlace;
         this.toPlace = toPlace;
         this.fromTime = fromTime;
         this.toTime = toTime;
         this.user = user;
+        this.transport = transport;
     }
 
     public TravelSchedule(){}

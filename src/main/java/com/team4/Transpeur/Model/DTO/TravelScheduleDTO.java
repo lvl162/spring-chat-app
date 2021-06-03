@@ -2,7 +2,6 @@ package com.team4.Transpeur.Model.DTO;
 
 import com.team4.Transpeur.Model.Entities.TravelSchedule;
 
-import javax.persistence.Column;
 import java.util.Date;
 
 public class TravelScheduleDTO {
@@ -14,6 +13,15 @@ public class TravelScheduleDTO {
     private Integer likes;
     private Integer seenTimes;
     private String fromPlace;
+    private String transport;
+
+    public String getTransport() {
+        return transport;
+    }
+
+    public void setTransport(String transport) {
+        this.transport = transport;
+    }
 
     public Integer getLikes() {
         return likes;
@@ -81,6 +89,7 @@ public class TravelScheduleDTO {
         this.toPlace = travelSchedule.getToPlace();
         this.fromTime = travelSchedule.getFromTime();
         this.toTime = travelSchedule.getToTime();
+        this.transport= travelSchedule.getTransport();
     }
 
     public Long getId() {
