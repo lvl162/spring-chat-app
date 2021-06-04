@@ -2,6 +2,8 @@ package com.team4.Transpeur.Model.DTO;
 
 import com.team4.Transpeur.Model.Entities.UserInformation;
 
+import java.util.Date;
+
 public class UserInformationDTO {
 
     private Long id;
@@ -13,6 +15,15 @@ public class UserInformationDTO {
     private String lastName;
     private Boolean gender;
     private Integer age;
+    private Date dob;
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
 
     public void setGender(Boolean gender) {
         this.gender = gender;
@@ -45,6 +56,7 @@ public class UserInformationDTO {
         this.lastName = userInformation.getLastName();
         this.gender = userInformation.getGender();
         this.age = userInformation.getAge();
+        this.dob = userInformation.getDob();
     }
     public Long getId() {
         return id;

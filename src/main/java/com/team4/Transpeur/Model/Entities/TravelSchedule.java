@@ -1,9 +1,9 @@
 package com.team4.Transpeur.Model.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Field;
-
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.codelibs.elasticsearch.vi.analysis.VietnameseTokenizerFactory;
+import org.hibernate.search.annotations.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -11,6 +11,11 @@ import java.util.Set;
 @Entity
 @Table(name="travelschedule", schema = "public")
 @Indexed(index="idx_trvsch")
+//@AnalyzerDef(name = "customanalyzer",
+//        tokenizer = @TokenizerDef(factory = VietnameseTokenizerFactory.class),
+//        filters = {
+//                @TokenFilterDef(factory = LowerCaseFilterFactory.class)
+//        })
 public class TravelSchedule extends AuditModel{
     @Id
     @Column(name="id")

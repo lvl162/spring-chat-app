@@ -3,6 +3,7 @@ package com.team4.Transpeur.Model.Entities;
 import com.team4.Transpeur.Model.DTO.UserInformationDTO;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "informationauthentication", schema = "public")
@@ -31,6 +32,16 @@ public class UserInformation extends AuditModel{
         this.gender = gender;
     }
 
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    @Column(name="dob")
+    private Date dob;
     @Column(name="age")
     private Integer age;
     public boolean getGender() {
@@ -52,6 +63,7 @@ public class UserInformation extends AuditModel{
         this.level = userInformationDTO.getLevel();
         this.gender = userInformationDTO.getGender();
         this.age = userInformationDTO.getAge();
+        this.dob = userInformationDTO.getDob();
     }
 
     public UserInformation() {
