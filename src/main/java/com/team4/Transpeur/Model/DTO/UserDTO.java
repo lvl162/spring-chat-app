@@ -14,6 +14,25 @@ public class UserDTO {
 
     private String email;
 
+    private String firstName;
+    private String lastName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -45,6 +64,8 @@ public class UserDTO {
         this.blocked = user.isIs_blocked();
         this.active = user.isIs_active();
         this.email = user.getEmail();
+        this.firstName = user.getInAu().getFirstName();
+        this.lastName = user.getInAu().getLastName();
     };
 
 
