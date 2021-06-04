@@ -2,6 +2,7 @@ package com.team4.Transpeur.Model.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.codelibs.elasticsearch.vi.analysis.VietnameseTokenizerFactory;
 import org.hibernate.search.annotations.*;
 import javax.persistence.*;
@@ -11,11 +12,11 @@ import java.util.Set;
 @Entity
 @Table(name="travelschedule", schema = "public")
 @Indexed(index="idx_trvsch")
-//@AnalyzerDef(name = "customanalyzer",
-//        tokenizer = @TokenizerDef(factory = VietnameseTokenizerFactory.class),
-//        filters = {
-//                @TokenFilterDef(factory = LowerCaseFilterFactory.class)
-//        })
+@AnalyzerDef(name = "customanalyzer",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class)
+        })
 public class TravelSchedule extends AuditModel{
     @Id
     @Column(name="id")

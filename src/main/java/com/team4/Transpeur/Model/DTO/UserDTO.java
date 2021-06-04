@@ -12,6 +12,16 @@ public class UserDTO {
     private Boolean active;
     private Boolean blocked;
 
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -34,6 +44,7 @@ public class UserDTO {
         this.roles = user.getRoles();
         this.blocked = user.isIs_blocked();
         this.active = user.isIs_active();
+        this.email = user.getEmail();
     };
 
 
