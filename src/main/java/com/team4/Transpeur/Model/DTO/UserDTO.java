@@ -64,8 +64,14 @@ public class UserDTO {
         this.blocked = user.isIs_blocked();
         this.active = user.isIs_active();
         this.email = user.getEmail();
-        this.firstName = user.getInAu().getFirstName();
-        this.lastName = user.getInAu().getLastName();
+        if (user.getInAu() != null) {
+            this.firstName = user.getInAu().getFirstName();
+            this.lastName = user.getInAu().getLastName();
+        }
+        else {
+            this.firstName = null;
+            this.lastName = null;
+        }
     };
 
 
