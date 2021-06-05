@@ -23,7 +23,7 @@ class App extends Component {
     };
 
     sendMessage = () => {
-        this.clientRef.sendMessage('/app/user-all', JSON.stringify({
+        this.clientRef.sendMessage('https://chatchit69.herokuapp.com/app/chat', JSON.stringify({
             name: this.state.name,
             message: this.state.typedMessage
         }));
@@ -83,8 +83,8 @@ class App extends Component {
                 <div className="align-center">
                     {this.displayMessages()}
                 </div>
-                <SockJsClient url='/websocket-chat/'
-                              topics={['/topic/user']}
+                <SockJsClient url='https://chatchit69.herokuapp.com/websocket-chat'
+                              topics={['https://chatchit69.herokuapp.com/topic/queue/messages']}
                               onConnect={() => {
                                   console.log("connected");
                               }}

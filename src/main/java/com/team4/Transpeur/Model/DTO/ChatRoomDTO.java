@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 public class ChatRoomDTO {
     private Long id;
     private Long aUserId;
-    private Long idB;
+    private Long bUserId;
     private Set<MessageDTO> messages;
     public ChatRoomDTO() {};
     public ChatRoomDTO(ChatRoom chatRoom) {
         this.aUserId = chatRoom.getaUserId();
-        this.idB = chatRoom.getbUserId();
+        this.bUserId = chatRoom.getbUserId();
         this.id = chatRoom.getId();
         this.messages = chatRoom.getMessages().stream().map(m -> new MessageDTO(m)).collect(Collectors.toSet());
     };
@@ -27,11 +27,11 @@ public class ChatRoomDTO {
     }
 
     public Long getIdB() {
-        return idB;
+        return bUserId;
     }
 
     public void setIdB(Long idB) {
-        this.idB = idB;
+        this.bUserId = idB;
     }
 
     public Set<MessageDTO> getMessages() {
