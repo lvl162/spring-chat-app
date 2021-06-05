@@ -67,11 +67,11 @@ function onConnected() {
                         for (let i=0; i<data.length; i++) {
                             var messageElement = document.createElement('li');
                             console.log(data[i].content,
-                            data[i].creatorName, data[i].createdAt)
+                            data[i].senderName, data[i].createdAt)
                             messageElement.classList.add('chat-message');
                             var usernameElement = document.createElement('strong');
                             usernameElement.classList.add('nickname');
-                            var usernameText = document.createTextNode( data[i].creatorName);
+                            var usernameText = document.createTextNode( data[i].senderName);
                             usernameElement.appendChild(usernameText);
                             messageElement.appendChild(usernameElement);
 

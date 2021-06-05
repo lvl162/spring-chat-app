@@ -70,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll().and()
                 .authorizeRequests()
-                .antMatchers("/index", "/", "/login","/signin").permitAll()
+                .antMatchers("/index", "/", "/login","/signin", "/websocket-chat/**", "/topic/**", "/app**", "/app/**").permitAll()
                 .anyRequest().authenticated();
         http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(1296000);
 
