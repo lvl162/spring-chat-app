@@ -19,7 +19,7 @@ public interface UserService {
     void changePassword(User user, String newPassword);
 
     Optional<User> findByUsername(String username);
-
+    List<User> searchByUsername(String username);
     Optional<User> findByEmail(String email);
 
     Page<User> findPageUser(Pageable pageable);

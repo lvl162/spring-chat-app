@@ -11,6 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/users/")
 public class UserController {
@@ -34,11 +38,18 @@ public class UserController {
         return new UserDTO(userService.findById(id).get());
 
     }
+    @GetMapping("/search")
+    public ResponseEntity<?> searchUser(@RequestParam("q") String q) {
+        return ResponseEntity.ok().body(userService.searchByUsername(q).stream().
+                map(UserDTO::new).collect(Collectors.toList()));
 
-    @GetMapping("paging")
+    }
+    @GetMapping("/paging")
     public ResponseEntity<?> getPageUser(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
         Pageable users = PageRequest.of( pageNo,pageSize);
         Page<UserDTO> page = userService.findPageUser(users).map(m-> new UserDTO(m));
         return ResponseEntity.ok().body(page);
     }
+
+
 }

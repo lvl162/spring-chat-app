@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -28,6 +29,12 @@ public class UserServiceImpl implements UserService{
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public List<User> searchByUsername(String username) {
+        return userRepository.findAll().stream().filter(p -> p.getUsername().contains(username) || p.getEmail().contains(username))
+                .collect(Collectors.toList());
     }
 
     @Override
