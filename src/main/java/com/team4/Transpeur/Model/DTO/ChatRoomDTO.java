@@ -41,4 +41,28 @@ public class ChatRoomDTO {
     public void setMessages(Set<MessageDTO> messages) {
         this.messages = messages;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getaUserId() {
+        return aUserId;
+    }
+
+    public void setaUserId(Long aUserId) {
+        this.aUserId = aUserId;
+    }
+
+    public Long getbUserId() {
+        return bUserId;
+    }
+
+    public void setbUserId(Long bUserId) {
+        this.bUserId = bUserId;
+    }
 }
