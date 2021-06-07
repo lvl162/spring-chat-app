@@ -5,6 +5,15 @@ import com.team4.Transpeur.Model.Entities.UserInformation;
 import java.util.Date;
 
 public class UserInformationDTO {
+    private String uname;
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
 
     private Long id;
     private String idCardNumber;
@@ -45,7 +54,8 @@ public class UserInformationDTO {
         this.gender = gender;
     }
 
-    public UserInformationDTO(String idCardNumber, String phoneNumber, String address, Integer level, String firstName, String lastName, Boolean gender, Integer age, Date dob) {
+    public UserInformationDTO(String uname, String idCardNumber, String phoneNumber, String address, Integer level, String firstName, String lastName, Boolean gender, Integer age, Date dob) {
+        this.uname = uname;
         this.idCardNumber = idCardNumber;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -55,6 +65,21 @@ public class UserInformationDTO {
         this.gender = gender;
         this.age = age;
         this.dob = dob;
+        this.id = null;
+    }
+
+    public UserInformationDTO(Long id, String idCardNumber, String phoneNumber, String address, Integer level, String firstName, String lastName, Boolean gender, Integer age, Date dob) {
+        this.id = id;
+        this.idCardNumber = idCardNumber;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.level = level;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
+        this.dob = dob;
+        this.uname = null;
     }
 
     public UserInformationDTO(){}
