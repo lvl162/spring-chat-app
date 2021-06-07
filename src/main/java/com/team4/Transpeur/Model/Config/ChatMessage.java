@@ -1,4 +1,4 @@
-package com.team4.Transpeur.Model.bean;
+package com.team4.Transpeur.Model.Config;
 
 public class ChatMessage {
 

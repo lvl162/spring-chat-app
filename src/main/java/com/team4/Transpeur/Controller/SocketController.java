@@ -1,6 +1,6 @@
 package com.team4.Transpeur.Controller;
 
-import com.team4.Transpeur.Model.bean.ChatMessage;
+import com.team4.Transpeur.Model.Config.ChatMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;

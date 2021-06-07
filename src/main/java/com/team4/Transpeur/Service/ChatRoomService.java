@@ -10,4 +10,8 @@ public interface ChatRoomService {
     ChatRoom findBySenderIdAndRecipientId(Long senderId, Long recipientId, boolean createIfNotExist);
     Optional<ChatRoom> findById(Long id);
     List<User> findByUserId(Long id);
+
+    List<ChatRoom> findAll();
+
+    void save(ChatRoom chat);
 }

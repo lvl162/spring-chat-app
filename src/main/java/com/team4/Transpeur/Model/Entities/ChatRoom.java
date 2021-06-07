@@ -1,8 +1,10 @@
 package com.team4.Transpeur.Model.Entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 @Entity
 @Table(name="chatroom", schema = "public")
@@ -20,6 +22,18 @@ public class ChatRoom extends AuditModel{
     private Long aUserId;
     @Column(name="userB_id", nullable = false)
     private Long bUserId;
+
+    public Date getRecentActive() {
+        return recentActive;
+    }
+
+    public void setRecentActive(Date recentActive) {
+        this.recentActive = recentActive;
+    }
+
+    @Column(name="recent_active")
+    @CreationTimestamp
+    private Date recentActive;
     @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Message> messages;

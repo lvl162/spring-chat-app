@@ -66,7 +66,7 @@ public class MessageController {
                     public int compare(MessageDTO o1, MessageDTO o2) {
                         return o1.getCreatedAt().compareTo(o2.getCreatedAt());
                     }
-                }).collect(Collectors.toList());
+                }.reversed()).collect(Collectors.toList());
 
         if (messages != null) {
             return ResponseEntity.ok().body(messages);

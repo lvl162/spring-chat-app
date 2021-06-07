@@ -6,6 +6,7 @@ import com.team4.Transpeur.Model.Entities.ChatRoom;
 import com.team4.Transpeur.Model.Entities.Message;
 import com.team4.Transpeur.Model.DTO.Payload.Request.ChatMessage;
 import com.team4.Transpeur.Model.DTO.Payload.Request.GetChatIdRequest;
+import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Service.ChatRoomService;
 import com.team4.Transpeur.Service.MessageService;
 import com.team4.Transpeur.Service.UserService;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +38,8 @@ public class ChatRoomController {
     public void processMessage(@Payload ChatMessage chatMessage) {
         ChatRoom chat = chatRoomService
                 .findBySenderIdAndRecipientId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true);
+        chat.setRecentActive(new Date());
+        chatRoomService.save(chat);
         Message message = new Message();
         message.setChatRoom(chat);
         message.setCreator(userService.findById(chatMessage.getSenderId()).get());
@@ -69,5 +74,10 @@ public class ChatRoomController {
 
         return ResponseEntity.ok().body(chatedUser);
 
+    }
+
+    @GetMapping("/api/chatroom/all")
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok().body(chatRoomService.findAll());
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -55,10 +56,17 @@ public class UserController {
         return ResponseEntity.ok().body(page);
     }
 
-//    @GetMapping("/block/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<?> blockOrUnblockUser(@PathVariable("id") Long id) {
-//
-//    }
+    @GetMapping("/block/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> blockOrUnblockUser(@PathVariable("id") Long id) {
+        Optional<User> user = userService.findById(id);
+        if (user.isPresent()) {
+            User x = user.get();
+            x.setIs_blocked(!x.isIs_blocked());
+            return ResponseEntity.ok().body(new UserDTO(userService.save(x)));
+
+        }
+        return  ResponseEntity.badRequest().body("No id user found");
+    }
 
 }
