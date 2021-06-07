@@ -95,8 +95,9 @@ public class TravelScheduleController {
 
     }
     @GetMapping("/all")
-    public ResponseEntity<?> getAll(Pageable page) {
-        return ResponseEntity.ok().body(travelScheduleService.findAll(page).map(m -> new TravelScheduleDTO(m)));
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok().body(travelScheduleService.findAll().stream().
+                map(m -> new TravelScheduleDTO(m)).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")

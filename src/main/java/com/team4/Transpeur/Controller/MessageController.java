@@ -58,22 +58,6 @@ public class MessageController {
         return ResponseEntity.badRequest().body(new MessageResponse("Username not found"));
     }
 
-//    @GetMapping("/uid/{id}")
-//    public ResponseEntity<?> getMessageByUid(@PathVariable("id") Long id) {
-//
-//        Optional<User> user = userService.findById(id);
-//        if (!user.isPresent()) {
-//            Set<Message> message = user.get().getMessages();
-//            if (message.size() > 0) {
-//                message.stream()
-//                        .sorted(Comparator.comparing(Message::getCreatedAt).reversed())
-//                        .
-//            }
-//        }
-//
-//        return ResponseEntity.badRequest().body(new MessageResponse("Id not found"));
-//
-//    }
     @GetMapping("/chatroom/{id}")
     public ResponseEntity<?> getMessageByUsername(@PathVariable("id") Long id) {
         List<MessageDTO> messages = chatRoomService.findById(id).get().getMessages().stream()

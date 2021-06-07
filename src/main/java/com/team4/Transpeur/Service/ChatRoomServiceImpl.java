@@ -40,10 +40,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public List<User> finByUserId(Long id) {
+    public List<User> findByUserId(Long id) {
         return chatRoomRepository.findAll().stream()
                 .filter(chatRoom -> chatRoom.getaUserId().equals(id) || chatRoom.getbUserId().equals(id))
-                .map(chatRoom -> userService.findById(chatRoom.getaUserId().equals(id) ? chatRoom.getbUserId() : id).get())
+                .map(chatRoom -> userService.findById(chatRoom.getaUserId().equals(id) ? chatRoom.getbUserId() : chatRoom.getaUserId()).get())
                 .distinct()
                 .collect(Collectors.toList());
     }

@@ -6,7 +6,6 @@ import com.team4.Transpeur.Model.Entities.ChatRoom;
 import com.team4.Transpeur.Model.Entities.Message;
 import com.team4.Transpeur.Model.DTO.Payload.Request.ChatMessage;
 import com.team4.Transpeur.Model.DTO.Payload.Request.GetChatIdRequest;
-import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Service.ChatRoomService;
 import com.team4.Transpeur.Service.MessageService;
 import com.team4.Transpeur.Service.UserService;
@@ -52,7 +51,6 @@ public class ChatRoomController {
 //                        chatMessage.getSenderId(),
 //                        chatMessage.getRecipientId()));
     }
-
     @PostMapping("/api/getChatId")
     public ResponseEntity<?> getChatId(@RequestBody GetChatIdRequest getChatIdRequest) {
         ChatRoomDTO chat = new ChatRoomDTO(chatRoomService
@@ -64,7 +62,7 @@ public class ChatRoomController {
     public ResponseEntity<?> getAllChatedUser(@PathVariable("id") Long id)
     {
 
-        List<UserDTO> chatedUser = chatRoomService.finByUserId(id)
+        List<UserDTO> chatedUser = chatRoomService.findByUserId(id)
                 .stream()
                 .map(m -> new UserDTO(m))
                 .collect(Collectors.toList());

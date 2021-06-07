@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -26,6 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public Page<UserDTO> getUsers(Pageable pageable) {
 
         Page<User> p =  userService.findPageUser(pageable);
@@ -34,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserDTO getUserById(@PathVariable("id") Long id) {
         return new UserDTO(userService.findById(id).get());
 
@@ -45,11 +48,17 @@ public class UserController {
 
     }
     @GetMapping("/paging")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getPageUser(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
         Pageable users = PageRequest.of( pageNo,pageSize);
         Page<UserDTO> page = userService.findPageUser(users).map(m-> new UserDTO(m));
         return ResponseEntity.ok().body(page);
     }
 
+//    @GetMapping("/block/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<?> blockOrUnblockUser(@PathVariable("id") Long id) {
+//
+//    }
 
 }
