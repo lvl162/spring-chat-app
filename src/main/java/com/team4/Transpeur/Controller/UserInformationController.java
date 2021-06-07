@@ -59,12 +59,10 @@ public class UserInformationController {
     }
     @PutMapping("/modifyByUname")
     public ResponseEntity<?> modifyByUname(@RequestBody UserInformationDTO userInformation) {
-        System.out.println(userInformation.getUname());
         Optional<User> user1 = userService.findByUsername(userInformation.getUname());
         if (user1.isPresent()) {
             Optional<UserInformation> uf = userInformationService.findUserInformationById(user1.get().getId());
             if (uf.isPresent()) {
-                System.out.println("yes");
                 UserInformation uf2 = uf.get();
                 uf2.setAge(userInformation.getAge());
                 uf2.setDob(userInformation.getDob());
@@ -76,8 +74,15 @@ public class UserInformationController {
                 uf2.setPhoneNumber(userInformation.getPhoneNumber());
                 return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.save(uf2)));
             }
-            return ResponseEntity.badRequest().body("Not found");
-
+            else {
+                UserInformation uf3 = new UserInformation(userInformation);
+                Optional<User> user = userService.findByUsername(userInformation.getUname());
+                if (user.isPresent()) {
+                    uf3.setUser(user.get());
+                    return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.save(uf3)));
+                }
+                else return ResponseEntity.badRequest().body("Not found");
+            }
         }
         return ResponseEntity.badRequest().body("Not found");
 //        if (user1.isPresent()) {
