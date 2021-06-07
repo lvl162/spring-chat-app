@@ -44,7 +44,7 @@ public class UserInformation extends AuditModel{
     private Date dob;
     @Column(name="age")
     private Integer age;
-    public boolean getGender() {
+    public Boolean getGender() {
         return gender;
     }
 

@@ -9,6 +9,12 @@ import javax.persistence.*;
 public class Contract extends AuditModel {
     @Id
     @Column(name="id")
+    @GeneratedValue(generator = "user_generator")
+    @SequenceGenerator(
+            name = "user_generator",
+            sequenceName = "user_sequence",
+            initialValue = 1000
+    )
     private Long id;
 
     @ManyToOne

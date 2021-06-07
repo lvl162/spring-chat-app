@@ -37,7 +37,7 @@ public class UserInformationDTO {
         this.age = age;
     }
 
-    public boolean getGender() {
+    public Boolean getGender() {
         return gender;
     }
 

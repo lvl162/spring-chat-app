@@ -15,6 +15,7 @@ public class TravelScheduleDTO {
     private String fromPlace;
     private String transport;
 
+    private UserInformationDTO infoUser;
     public String getTransport() {
         return transport;
     }
@@ -76,6 +77,14 @@ public class TravelScheduleDTO {
     private Date toTime;
     public TravelScheduleDTO() {};
 
+    public UserInformationDTO getInfoUser() {
+        return infoUser;
+    }
+
+    public void setInfoUser(UserInformationDTO infoUser) {
+        this.infoUser = infoUser;
+    }
+
     public TravelScheduleDTO(TravelSchedule travelSchedule) {
 
         this.id = travelSchedule.getId();
@@ -90,6 +99,8 @@ public class TravelScheduleDTO {
         this.fromTime = travelSchedule.getFromTime();
         this.toTime = travelSchedule.getToTime();
         this.transport= travelSchedule.getTransport();
+        if (travelSchedule.getUser().getInAu()!=null) this.infoUser = new UserInformationDTO(travelSchedule.getUser().getInAu());
+        else this.infoUser = new UserInformationDTO();
     }
 
     public Long getId() {

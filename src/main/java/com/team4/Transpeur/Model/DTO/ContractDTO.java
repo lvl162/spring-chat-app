@@ -8,6 +8,17 @@ public class ContractDTO {
     private String description;
     private Long shipperId;
     private Float price;
+
+    /*
+    *
+    *
+    {"travelScheduleId" : 123
+    "receiverId" : 123
+    "description" : "coi chung vo hang"
+    "shipperId" : 123
+    "price" : "6969" }
+    *
+    * */
     public ContractDTO(){}
     public ContractDTO(Contract contract) {
         this.shipperId = contract.getTravelSchedule().getUser().getId();

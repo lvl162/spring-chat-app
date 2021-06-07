@@ -1,8 +1,10 @@
 package com.team4.Transpeur.Controller;
 
 import com.team4.Transpeur.Model.DTO.UserDTO;
+import com.team4.Transpeur.Model.Entities.Rating;
 import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Repositories.UserRepository;
+import com.team4.Transpeur.Service.RatingService;
 import com.team4.Transpeur.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,10 +23,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/users/")
 public class UserController {
     private UserService userService;
+    private RatingService ratingService;
     @Autowired private UserRepository userRepository;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RatingService ratingService) {
         this.userService = userService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping("/all")

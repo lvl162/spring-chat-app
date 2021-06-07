@@ -40,7 +40,7 @@ public class ContractController {
             return ResponseEntity.ok().body(contractDTO);
         }
         catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error has been occurred");
+            return ResponseEntity.badRequest().body(e);
         }
     }
 

@@ -3,7 +3,7 @@ package com.team4.Transpeur.Service;
 import com.team4.Transpeur.Model.Entities.Contract;
 import com.team4.Transpeur.Model.Entities.Rating;
 import com.team4.Transpeur.Model.Entities.TravelSchedule;
-import com.team4.Transpeur.Repositories.ContractRepository;
+import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Repositories.RatingRepository;
 import com.team4.Transpeur.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +33,17 @@ public class RatingServiceImpl implements RatingService{
 
     @Override
     public Float getAvgRatingByUid(Long id) {
-        Integer sum = 0, num = 0;
-
-        for (TravelSchedule t : userRepository.findById(id).get().getTravelSchedules()) {
-            if (t.getContracts() != null)
-            for (Contract c : t.getContracts()) {
-                if (c.getRating() != null) {
-                    sum= sum + c.getRating().getStar();
-                    num++;
-                }
+        int sum = 0, num = 0;
+        Optional<User> u = userRepository.findById(id);
+        if (u.isPresent()) {
+            for (TravelSchedule t : userRepository.findById(id).get().getTravelSchedules()) {
+                if (t.getContracts() != null)
+                    for (Contract c : t.getContracts()) {
+                        if (c.getRating() != null) {
+                            sum = sum + c.getRating().getStar();
+                            num++;
+                        }
+                    }
             }
         }
         if (num == 0) return (float)0;
