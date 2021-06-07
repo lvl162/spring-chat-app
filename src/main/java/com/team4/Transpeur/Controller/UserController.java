@@ -28,7 +28,6 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
     public Page<UserDTO> getUsers(Pageable pageable) {
 
         Page<User> p =  userService.findPageUser(pageable);
@@ -49,7 +48,6 @@ public class UserController {
 
     }
     @GetMapping("/paging")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getPageUser(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
         Pageable users = PageRequest.of( pageNo,pageSize);
         Page<UserDTO> page = userService.findPageUser(users).map(m-> new UserDTO(m));
@@ -57,7 +55,6 @@ public class UserController {
     }
 
     @GetMapping("/block/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> blockOrUnblockUser(@PathVariable("id") Long id) {
         Optional<User> user = userService.findById(id);
         if (user.isPresent()) {

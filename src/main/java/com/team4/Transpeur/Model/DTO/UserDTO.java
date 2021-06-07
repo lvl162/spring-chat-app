@@ -17,6 +17,26 @@ public class UserDTO {
     private String firstName;
     private String lastName;
 
+    private Integer numberOfPost;
+
+    private Float avgRating;
+
+    public Float getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Float avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public Integer getNumberOfPost() {
+        return numberOfPost;
+    }
+
+    public void setNumberOfPost(Integer numberOfPost) {
+        this.numberOfPost = numberOfPost;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -72,7 +92,8 @@ public class UserDTO {
             this.firstName = null;
             this.lastName = null;
         }
-    };
+        this.numberOfPost = user.getTravelSchedules().size();
+    }
 
 
     public String getUsername() {
@@ -99,5 +120,5 @@ public class UserDTO {
         this.roles = roles;
     }
 
-    public UserDTO() {};
+    public UserDTO() {}
 }
