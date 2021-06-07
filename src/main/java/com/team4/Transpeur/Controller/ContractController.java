@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -70,24 +72,44 @@ public class ContractController {
     @GetMapping("/uid/{id}")
     public ResponseEntity<?> getByUId(@PathVariable("id") Long id) {
         Optional<User> user = userService.findById(id);
+        List<ContractDTO> res = new ArrayList<ContractDTO>();
         if (user.isPresent()) {
 
-            return ResponseEntity.ok().body(user.get().getTravelSchedules().stream().map(m -> m.getContracts()
-                    .stream()
-            .map(c -> new ContractDTO(c)).collect(Collectors.toList())
-            ).collect(Collectors.toList()));
+
+            for (TravelSchedule t: user.get().getTravelSchedules()
+                 ) {
+                if (t.getContracts() != null) {
+                    for (Contract c: t.getContracts()
+                         ) {
+                        res.add(new ContractDTO(c));
+                    }
+                }
+
+            }
+
+            return ResponseEntity.ok().body(res);
         }
         return ResponseEntity.badRequest().body("User ID not found");
     }
     @GetMapping("/uname/{uname}")
     public ResponseEntity<?> getByUId(@PathVariable("uname") String uname) {
         Optional<User> user = userService.findByUsername(uname);
+        List<ContractDTO> res = new ArrayList<ContractDTO>();
         if (user.isPresent()) {
 
-            return ResponseEntity.ok().body(user.get().getTravelSchedules().stream().map(m -> m.getContracts()
-                    .stream()
-                    .map(c -> new ContractDTO(c)).collect(Collectors.toList())
-            ).collect(Collectors.toList()));
+
+            for (TravelSchedule t: user.get().getTravelSchedules()
+            ) {
+                if (t.getContracts() != null) {
+                    for (Contract c: t.getContracts()
+                    ) {
+                        res.add(new ContractDTO(c));
+                    }
+                }
+
+            }
+
+            return ResponseEntity.ok().body(res);
         }
         return ResponseEntity.badRequest().body("UserName not found");
     }

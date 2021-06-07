@@ -45,6 +45,18 @@ public class UserInformationDTO {
         this.gender = gender;
     }
 
+    public UserInformationDTO(String idCardNumber, String phoneNumber, String address, Integer level, String firstName, String lastName, Boolean gender, Integer age, Date dob) {
+        this.idCardNumber = idCardNumber;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.level = level;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
+        this.dob = dob;
+    }
+
     public UserInformationDTO(){}
     public UserInformationDTO(UserInformation userInformation) {
         this.id = userInformation.getId();
