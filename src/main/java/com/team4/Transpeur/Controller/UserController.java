@@ -36,7 +36,11 @@ public class UserController {
 
         Page<User> p =  userService.findPageUser(pageable);
 
-        return p.map(m-> new UserDTO(m));
+        return p.map(m-> {
+            UserDTO temp = new UserDTO(m);
+            temp.setAvgRating(ratingService.getAvgRatingByUid(m.getId()));
+            return temp;
+        });
     }
 
     @GetMapping("/{id}")
@@ -48,13 +52,21 @@ public class UserController {
     @GetMapping("/search")
     public ResponseEntity<?> searchUser(@RequestParam("q") String q) {
         return ResponseEntity.ok().body(userService.searchByUsername(q).stream().
-                map(UserDTO::new).collect(Collectors.toList()));
+                map(m-> {
+                    UserDTO temp = new UserDTO(m);
+                    temp.setAvgRating(ratingService.getAvgRatingByUid(m.getId()));
+                    return temp;
+                }).collect(Collectors.toList()));
 
     }
     @GetMapping("/paging")
     public ResponseEntity<?> getPageUser(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
         Pageable users = PageRequest.of( pageNo,pageSize);
-        Page<UserDTO> page = userService.findPageUser(users).map(m-> new UserDTO(m));
+        Page<UserDTO> page = userService.findPageUser(users).map(m-> {
+            UserDTO temp = new UserDTO(m);
+            temp.setAvgRating(ratingService.getAvgRatingByUid(m.getId()));
+            return temp;
+        });
         return ResponseEntity.ok().body(page);
     }
 

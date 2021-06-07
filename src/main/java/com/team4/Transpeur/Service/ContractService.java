@@ -11,4 +11,6 @@ public interface ContractService {
     Optional<Contract> findById(Long id);
     void deleteById(Long id);
     Contract save(Contract contract);
+
+    Boolean isRated(Long atContractId);
 }

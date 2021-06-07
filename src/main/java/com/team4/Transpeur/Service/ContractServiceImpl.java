@@ -27,6 +27,11 @@ public class ContractServiceImpl implements ContractService{
     }
 
     @Override
+    public Boolean isRated(Long atContractId) {
+        return contractRepository.findById(atContractId).get().getRating() != null;
+    }
+
+    @Override
     public Optional<Contract> findById(Long id) {
         return contractRepository.findById(id);
     }

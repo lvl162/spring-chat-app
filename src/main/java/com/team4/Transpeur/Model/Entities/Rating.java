@@ -5,8 +5,15 @@ import javax.persistence.*;
 @Entity
 @Table(name="rating", schema = "public")
 public class Rating extends AuditModel{
+//    @Id
+//    @GeneratedValue(generator = "user_generator")
+//    @SequenceGenerator(
+//            name = "user_generator",
+//            sequenceName = "user_sequence",
+//            initialValue = 1000
+//    )
     @Id
-    @Column(name="id")
+    @Column(name="contract_id")
     private Long id;
 
     @OneToOne

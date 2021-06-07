@@ -91,4 +91,16 @@ public class ContractController {
         }
         return ResponseEntity.badRequest().body("UserName not found");
     }
+    @GetMapping("/travel/{id}")
+    public ResponseEntity<?> getByTravelScheduleId(@PathVariable("id") Long id) {
+        Optional<TravelSchedule> ts = travelScheduleService.findById(id);
+
+        if (ts.isPresent()) {
+
+            return ResponseEntity.ok().body(ts.get().getContracts().stream().map(m -> new ContractDTO(m))
+                    .collect(Collectors.toList())
+            );
+        }
+        return ResponseEntity.badRequest().body("TravelScheduleID not found");
+    }
 }

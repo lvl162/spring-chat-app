@@ -4,6 +4,7 @@ import com.team4.Transpeur.Model.Entities.Rating;
 
 public class RatingDTO {
     public RatingDTO(Rating rating) {
+        this.id = rating.getId();
         this.fromId = rating.getContract().getReceiver().getId();
         this.toId = rating.getContract().getTravelSchedule().getUser().getId();
         this.atContractId = rating.getContract().getId();
@@ -11,6 +12,7 @@ public class RatingDTO {
         this.description =rating.getDescription();
 
     }
+    private Long id;
     private Long fromId;
     private Long toId;
     private Long atContractId;
@@ -25,6 +27,14 @@ public class RatingDTO {
    * */
     public Long getFromId() {
         return fromId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setFromId(Long fromId) {
@@ -60,6 +70,14 @@ public class RatingDTO {
     }
 
     public void setStar(Integer star) {
+        this.star = star;
+    }
+
+    public RatingDTO(Long fromId, Long toId, Long atContractId, String description, Integer star) {
+        this.fromId = fromId;
+        this.toId = toId;
+        this.atContractId = atContractId;
+        this.description = description;
         this.star = star;
     }
 }

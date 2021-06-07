@@ -9,6 +9,7 @@ import com.team4.Transpeur.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -32,19 +33,27 @@ public class RatingServiceImpl implements RatingService{
     }
 
     @Override
+    public List<Rating> getAllRatingsByUserId(Long id) {
+        List<Rating> res= new ArrayList<Rating>();
+        for (Rating r : ratingRepository.findAll()) {
+            if (r.getContract() != null)
+                if (r.getContract().getTravelSchedule() != null) {
+                    if (r.getContract().getTravelSchedule().getUser().getId().equals(id))
+                    res.add(r.getContract().getRating());
+                }
+        }
+        return res;
+    }
+
+    @Override
     public Float getAvgRatingByUid(Long id) {
         int sum = 0, num = 0;
-        Optional<User> u = userRepository.findById(id);
-        if (u.isPresent()) {
-            for (TravelSchedule t : userRepository.findById(id).get().getTravelSchedules()) {
-                if (t.getContracts() != null)
-                    for (Contract c : t.getContracts()) {
-                        if (c.getRating() != null) {
-                            sum = sum + c.getRating().getStar();
-                            num++;
-                        }
-                    }
-            }
+        for (Rating r : ratingRepository.findAll()) {
+            if (r.getContract() != null)
+                if (r.getContract().getTravelSchedule() != null) {
+                    if (r.getContract().getTravelSchedule().getUser().getId().equals(id))
+                        sum = sum + r.getContract().getRating().getStar(); num++;
+                }
         }
         if (num == 0) return (float)0;
         return (float)sum/(float)num;

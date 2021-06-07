@@ -27,7 +27,12 @@ public class UserInformationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
+        Optional<UserInformation> uf = userInformationService.findUserInformationById(id);
+        if (uf.isPresent())
         return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.findUserInformationById(id).get()));
+        else {
+            return ResponseEntity.ok().body(new UserInformationDTO());
+        }
     }
     @PutMapping("/modify")
     public ResponseEntity<?> modifyById(@RequestBody UserInformationDTO userInformation) {

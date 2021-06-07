@@ -10,6 +10,6 @@ public interface RatingService {
     Optional<Rating> findById(Long id);
     void deleteById(Long id);
     Rating save(Rating rating);
-
+    List<Rating> getAllRatingsByUserId(Long id);
     Float getAvgRatingByUid(Long id);
 }

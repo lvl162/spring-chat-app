@@ -1,6 +1,7 @@
 package com.team4.Transpeur.Model.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.codelibs.elasticsearch.vi.analysis.VietnameseTokenizerFactory;
@@ -65,13 +66,14 @@ public class TravelSchedule extends AuditModel{
 //    @Field
     private User user;
 
-    @OneToMany()
+    @OneToMany(mappedBy = "travelSchedule")
+    @JsonManagedReference
     private Set<Contract> contracts;
-
 
     public Long getId() {
         return id;
     }
+
 
     public void setId(Long id) {
         this.id = id;

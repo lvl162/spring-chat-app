@@ -63,21 +63,21 @@ public class User extends AuditModel {
         this.roles = roles;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_rating",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "rating_id"))
-    @JsonManagedReference
-
-    private Set<Rating> ratings = new HashSet<>();
-
-    public Set<Rating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(Set<Rating> ratings) {
-        this.ratings = ratings;
-    }
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(	name = "user_rating",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "rating_id"))
+//    @JsonManagedReference
+//
+//    private Set<Rating> ratings = new HashSet<>();
+//
+//    public Set<Rating> getRatings() {
+//        return ratings;
+//    }
+//
+//    public void setRatings(Set<Rating> ratings) {
+//        this.ratings = ratings;
+//    }
 
     // userverification table
     @OneToOne(mappedBy="user", cascade=CascadeType.ALL)
