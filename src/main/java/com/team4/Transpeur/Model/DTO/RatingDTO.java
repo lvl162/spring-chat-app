@@ -16,7 +16,13 @@ public class RatingDTO {
     private Long atContractId;
     private String description;
     private Integer star;
-
+   /*
+   "fromId": 123,
+    "toId" : 12121,
+    "atContractId" : 1212,
+    "description" : "ship wa cham, 1 diem ve cho"
+    "star" : 3
+   * */
     public Long getFromId() {
         return fromId;
     }

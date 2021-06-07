@@ -8,19 +8,29 @@ public class ContractDTO {
     private String description;
     private Long shipperId;
     private Float price;
+    private Long contractId;
+
+    public Long getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
+    }
 
     /*
-    *
-    *
-    {"travelScheduleId" : 123
-    "receiverId" : 123
-    "description" : "coi chung vo hang"
-    "shipperId" : 123
-    "price" : "6969" }
-    *
-    * */
+        *
+        *
+        {"travelScheduleId" : 123
+        "receiverId" : 123
+        "description" : "coi chung vo hang"
+        "shipperId" : 123
+        "price" : "6969" }
+        *
+        * */
     public ContractDTO(){}
     public ContractDTO(Contract contract) {
+        this.contractId = contract.getId();
         this.shipperId = contract.getTravelSchedule().getUser().getId();
         this.travelScheduleId = contract.getTravelSchedule().getId();
         this.receiverId = contract.getReceiver().getId();

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Set;
 
 public class UserDTO {
-    @Autowired
-    private RatingService ratingService;
     private String username;
     private Long id;
     private Set<Role> roles;
@@ -97,7 +95,6 @@ public class UserDTO {
             this.lastName = null;
         }
         this.numberOfPost = user.getTravelSchedules().size();
-        this.avgRating = ratingService.getAvgRatingByUid(user.getId());
     }
 
 
