@@ -21,6 +21,18 @@ public class Contract extends AuditModel {
     @JoinColumn(name="receiver_id", nullable = false)
     private User receiver;
 
+
+    @Column(name="status")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @ManyToOne
     @JoinColumn(name="travelschedule_id", nullable = false)
     private TravelSchedule travelSchedule;

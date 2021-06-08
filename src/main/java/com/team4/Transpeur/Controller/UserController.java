@@ -32,15 +32,12 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public Page<UserDTO> getUsers(Pageable pageable) {
+    public ResponseEntity<?> getUsers() {
 
-        Page<User> p =  userService.findPageUser(pageable);
-
-        return p.map(m-> {
-            UserDTO temp = new UserDTO(m);
-            temp.setAvgRating(ratingService.getAvgRatingByUid(m.getId()));
-            return temp;
-        });
+        return ResponseEntity.ok().body(userService.findAll()
+                .stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")

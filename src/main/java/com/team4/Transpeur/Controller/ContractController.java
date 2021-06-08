@@ -38,6 +38,7 @@ public class ContractController {
             contract.setDescription(contractDTO.getDescription());
             contract.setTravelSchedule(travelScheduleService.findById(contractDTO.getTravelScheduleId()).get());
             contract.setReceiver(userService.findById(contractDTO.getReceiverId()).get());
+            contract.setStatus("ON THE WAY");
             contractService.save(contract);
             return ResponseEntity.ok().body(contractDTO);
         }

@@ -9,6 +9,15 @@ public class ContractDTO {
     private Long shipperId;
     private Float price;
     private Long contractId;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getContractId() {
         return contractId;
@@ -30,6 +39,7 @@ public class ContractDTO {
         * */
     public ContractDTO(){}
     public ContractDTO(Contract contract) {
+        this.status = contract.getStatus();
         this.contractId = contract.getId();
         this.shipperId = contract.getTravelSchedule().getUser().getId();
         this.travelScheduleId = contract.getTravelSchedule().getId();

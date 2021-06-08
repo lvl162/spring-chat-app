@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
-import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -36,8 +34,9 @@ public class UserInformationController {
     @PutMapping("/modify")
     public ResponseEntity<?> modifyById(@RequestBody UserInformationDTO userInformation) {
         Optional<UserInformation> userIn = userInformationService.findUserInformationById(userInformation.getId());
+        UserInformation userInformation1;
         if (userIn.isPresent()) {
-            UserInformation userInformation1 = userIn.get();
+            userInformation1 = userIn.get();
             userInformation1.setAddress(userInformation.getAddress());
             userInformation1.setFirstName(userInformation.getFirstName());
             userInformation1.setLastName(userInformation.getLastName());
@@ -48,14 +47,12 @@ public class UserInformationController {
             userInformation1.setDob(userInformation.getDob());
             userInformation1.setAge(userInformation.getAge());
 
-            return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.save(userInformation1)));
         } else {
-            UserInformation userInformation1 = new UserInformation(userInformation);
+            userInformation1 = new UserInformation(userInformation);
             Optional<User> user = userService.findById(userInformation.getId());
-            if (user.isPresent())
-                userInformation1.setUser(user.get());
-            return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.save(userInformation1)));
+            user.ifPresent(userInformation1::setUser);
         }
+        return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.save(userInformation1)));
     }
     @PutMapping("/modifyByUname")
     public ResponseEntity<?> modifyByUname(@RequestBody UserInformationDTO userInformation) {
@@ -85,33 +82,5 @@ public class UserInformationController {
             }
         }
         return ResponseEntity.badRequest().body("Not found");
-//        if (user1.isPresent()) {
-//            System.out.println(user1.get().getUsername());
-//            Optional<UserInformation> userIn = userInformationService.findUserInformationById(user1.get().getId());
-//            if (userIn.isPresent()) {
-//                UserInformation userInformation1 = userIn.get();
-//                userInformation1.setAddress(userInformation.getAddress());
-//                userInformation1.setFirstName(userInformation.getFirstName());
-//                userInformation1.setLastName(userInformation.getLastName());
-//                userInformation1.setPhoneNumber(userInformation.getPhoneNumber());
-//                userInformation1.setIdCardNumber(userInformation.getIdCardNumber());
-//                userInformation1.setUser(userService.findById(userInformation.getId()).get());
-//                userInformation1.setGender(userInformation.getGender());
-//                userInformation1.setDob(userInformation.getDob());
-//                userInformation1.setAge(userInformation.getAge());
-//
-//                return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.save(userInformation1)));
-//            } else {
-//                UserInformation userInformation1 = new UserInformation(userInformation);
-//                userInformation1.setUser(user1.get());
-////                Optional<User> user = userService.findById(user1.get().getId());
-////                if (user.isPresent())
-////                    userInformation1.setUser(user.get());
-//                return ResponseEntity.ok().body(userInformationService.save(userInformation1));
-//            }
-//        }
-//        else {
-//            return ResponseEntity.badRequest().body("Not found username");
-//        }
     }
 }
