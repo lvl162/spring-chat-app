@@ -42,18 +42,24 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     public List<User> findByUserId(Long id) {
-        return chatRoomRepository.findAll().stream()
-                .filter(chatRoom -> chatRoom.getaUserId().equals(id) || chatRoom.getbUserId().equals(id))
-                .sorted(new Comparator<ChatRoom>() {
-                    @Override
-                    public int compare(ChatRoom o1, ChatRoom o2) {
-                        if (o1.getRecentActive() == null || o2.getRecentActive() == null) return 0;
-                        return o1.getRecentActive().compareTo(o2.getRecentActive());
-                    }
-                })
-                .map(chatRoom -> userService.findById(chatRoom.getaUserId().equals(id) ? chatRoom.getbUserId() : chatRoom.getaUserId()).get())
-                .distinct()
-                .collect(Collectors.toList());
+        try {
+            return chatRoomRepository.findAll().stream()
+                    .filter(chatRoom -> chatRoom.getaUserId().equals(id) || chatRoom.getbUserId().equals(id))
+                    .sorted(new Comparator<ChatRoom>() {
+                        @Override
+                        public int compare(ChatRoom o1, ChatRoom o2) {
+                            if (o1.getRecentActive() == null || o2.getRecentActive() == null) return 0;
+                            return o1.getRecentActive().compareTo(o2.getRecentActive());
+                        }
+                    })
+                    .map(chatRoom -> userService.findById(chatRoom.getaUserId().equals(id) ? chatRoom.getbUserId() : chatRoom.getaUserId()).get())
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
