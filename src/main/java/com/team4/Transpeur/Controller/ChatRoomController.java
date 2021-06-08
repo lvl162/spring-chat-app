@@ -60,6 +60,9 @@ public class ChatRoomController {
     public ResponseEntity<?> getChatId(@RequestBody GetChatIdRequest getChatIdRequest) {
         ChatRoomDTO chat = new ChatRoomDTO(chatRoomService
                 .findBySenderIdAndRecipientId(getChatIdRequest.getSenderId(), getChatIdRequest.getRecipientId(), true));
+        chat.setUserA(new UserDTO(userService.findById(chat.getaUserId()).get()));
+        chat.setUserB(new UserDTO(userService.findById(chat.getbUserId()).get()));
+
         return ResponseEntity.ok().body(chat);
     }
 
