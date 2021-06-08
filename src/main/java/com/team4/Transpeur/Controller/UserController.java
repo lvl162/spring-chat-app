@@ -36,7 +36,11 @@ public class UserController {
 
         return ResponseEntity.ok().body(userService.findAll()
                 .stream()
-                .map(UserDTO::new)
+                .map(m-> {
+                    UserDTO temp = new UserDTO(m);
+                    temp.setAvgRating(ratingService.getAvgRatingByUid(m.getId()));
+                    return temp;
+                })
                 .collect(Collectors.toList()));
     }
 
