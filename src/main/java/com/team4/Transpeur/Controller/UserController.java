@@ -36,6 +36,7 @@ public class UserController {
 
         return ResponseEntity.ok().body(userService.findAll()
                 .stream()
+                .filter(m -> m.getRoles().stream().allMatch(role -> role.getName().toString().equals("ROLE_USER")))
                 .map(m-> {
                     UserDTO temp = new UserDTO(m);
                     temp.setAvgRating(ratingService.getAvgRatingByUid(m.getId()));
