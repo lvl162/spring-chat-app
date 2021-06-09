@@ -34,28 +34,28 @@ public class ChatRoomController {
     @Autowired private ChatRoomService chatRoomService;
     @Autowired private UserService userService;
 
-    @MessageMapping("/chat")
-    public void processMessage(@Payload ChatMessage chatMessage) {
-        ChatRoom chat = chatRoomService
-                .findBySenderIdAndRecipientId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true);
-        chat.setRecentActive(new Date());
-        chatRoomService.save(chat);
-        Message message = new Message();
-        message.setChatRoom(chat);
-        message.setCreator(userService.findById(chatMessage.getSenderId()).get());
-        message.setMessageType(Message.MessageType.CHAT);
-        message.setContent(chatMessage.getContent());
-        Message saved = messageService.save(message);
-        messagingTemplate.convertAndSendToUser(
-                chat.getId().toString(),"/queue/messages",
-               chatMessage);
+//    @MessageMapping("/chat")
+//    public void processMessage(@Payload ChatMessage chatMessage) {
+//        ChatRoom chat = chatRoomService
+//                .findBySenderIdAndRecipientId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true);
+//        chat.setRecentActive(new Date());
+//        chatRoomService.save(chat);
+//        Message message = new Message();
+//        message.setChatRoom(chat);
+//        message.setCreator(userService.findById(chatMessage.getSenderId()).get());
+//        message.setMessageType(Message.MessageType.CHAT);
+//        message.setContent(chatMessage.getContent());
+//        Message saved = messageService.save(message);
 //        messagingTemplate.convertAndSendToUser(
-//                chatMessage.getRecipientId().toString(),"/queue/messages",
-//                new ChatNotification(
-//                        saved.getId(),
-//                        chatMessage.getSenderId(),
-//                        chatMessage.getRecipientId()));
-    }
+//                chat.getId().toString(),"/queue/messages",
+//               chatMessage);
+////        messagingTemplate.convertAndSendToUser(
+////                chatMessage.getRecipientId().toString(),"/queue/messages",
+////                new ChatNotification(
+////                        saved.getId(),
+////                        chatMessage.getSenderId(),
+////                        chatMessage.getRecipientId()));
+//    }
     @PostMapping("/api/getChatId")
     public ResponseEntity<?> getChatId(@RequestBody GetChatIdRequest getChatIdRequest) {
         ChatRoomDTO chat = new ChatRoomDTO(chatRoomService

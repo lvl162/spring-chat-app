@@ -13,7 +13,6 @@ public class UserDTO {
     private String username;
     private Long id;
     private Set<Role> roles;
-    private Boolean active;
     private Boolean blocked;
 
     private String email;
@@ -65,14 +64,6 @@ public class UserDTO {
         this.email = email;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public Boolean getBlocked() {
         return blocked;
     }
@@ -86,15 +77,14 @@ public class UserDTO {
         this.id = user.getId();
         this.roles = user.getRoles();
         this.blocked = user.isIs_blocked();
-        this.active = user.isIs_active();
         this.email = user.getEmail();
         if (user.getInAu() != null) {
             this.firstName = user.getInAu().getFirstName();
             this.lastName = user.getInAu().getLastName();
         }
         else {
-            this.firstName = null;
-            this.lastName = null;
+            this.firstName = "STILL NOT UPDATED";
+            this.lastName = "";
         }
         this.numberOfPost = user.getTravelSchedules().size();
     }
