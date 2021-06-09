@@ -11,6 +11,8 @@ public interface ChatRoomService {
     Optional<ChatRoom> findById(Long id);
     List<User> findByUserId(Long id);
 
+    List<ChatRoom> findChatRoom(Long id);
+
     List<ChatRoom> findAll();
 
     void save(ChatRoom chat);

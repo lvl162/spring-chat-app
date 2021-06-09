@@ -22,6 +22,27 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
+    public List<ChatRoom> findChatRoom(Long id) {
+        try {
+            return chatRoomRepository.findAll().stream()
+                    .filter(chatRoom -> chatRoom.getaUserId().equals(id) || chatRoom.getbUserId().equals(id))
+                    .sorted(new Comparator<ChatRoom>() {
+                        @Override
+                        public int compare(ChatRoom o1, ChatRoom o2) {
+                            if (o1.getRecentActive() == null || o2.getRecentActive() == null) return 0;
+                            return o1.getRecentActive().compareTo(o2.getRecentActive());
+                        }
+                    })
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public ChatRoom findBySenderIdAndRecipientId(Long uAid, Long uBid, boolean createIfNotExist) {
         if (uAid.equals(uBid)) return null;
         for (ChatRoom chatRoom : chatRoomRepository.findAll()) {

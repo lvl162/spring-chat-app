@@ -4,19 +4,17 @@ import com.team4.Transpeur.Model.DTO.SearchDTO;
 import com.team4.Transpeur.Model.DTO.TravelScheduleDTO;
 import com.team4.Transpeur.Model.Entities.TravelSchedule;
 import com.team4.Transpeur.Model.Entities.User;
-import com.team4.Transpeur.Model.DTO.Payload.Request.TravelScheduleRequest;
+
 import com.team4.Transpeur.Model.DTO.Payload.Respone.MessageResponse;
 import com.team4.Transpeur.Service.TravelScheduleService;
 import com.team4.Transpeur.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.sipios.springsearch.anotation.SearchSpec;
-import org.thymeleaf.util.DateUtils;
+
 
 import javax.validation.Valid;
 import java.util.*;
