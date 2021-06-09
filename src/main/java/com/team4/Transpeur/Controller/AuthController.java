@@ -113,10 +113,14 @@ public class AuthController {
 //                .path("/")
 //                .maxAge(1 * 24 * 60 * 60)
 //                .build();
-        UserInformation us = userService.findById(userDetails.getId()).get().getInAu();
+        User user = userService.findById(userDetails.getId()).get();
+        UserInformation us = user.getInAu();
         UserInformationDTO info = new UserInformationDTO();
         if (us!= null) {
             info = new UserInformationDTO(us);
+        }
+        if ( user.isIs_blocked()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Tai khoan da bi block !!"));
         }
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).body(new JwtResponse(jwt,
                 userDetails.getId(),
