@@ -6,12 +6,10 @@ import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Set;
 
 public class UserDTO {
-    @Autowired
-    private RatingService ratingService;
-
     private String username;
     private Long id;
     private Set<Role> roles;
