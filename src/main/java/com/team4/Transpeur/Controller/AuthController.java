@@ -5,10 +5,8 @@ import com.team4.Transpeur.Model.DTO.Payload.Request.LoginRequest;
 import com.team4.Transpeur.Model.DTO.Payload.Request.SignupRequest;
 import com.team4.Transpeur.Model.DTO.Payload.Respone.JwtResponse;
 import com.team4.Transpeur.Model.DTO.Payload.Respone.MessageResponse;
-import com.team4.Transpeur.Model.Entities.ERole;
-import com.team4.Transpeur.Model.Entities.PasswordResetToken;
-import com.team4.Transpeur.Model.Entities.Role;
-import com.team4.Transpeur.Model.Entities.User;
+import com.team4.Transpeur.Model.DTO.UserInformationDTO;
+import com.team4.Transpeur.Model.Entities.*;
 import com.team4.Transpeur.Security.jwt.JwtUtils;
 import com.team4.Transpeur.Security.services.UserDetailsImpl;
 import com.team4.Transpeur.Service.EmailService;
@@ -115,11 +113,16 @@ public class AuthController {
 //                .path("/")
 //                .maxAge(1 * 24 * 60 * 60)
 //                .build();
+        UserInformation us = userService.findById(userDetails.getId()).get().getInAu();
+        UserInformationDTO info = new UserInformationDTO();
+        if (us!= null) {
+            info = new UserInformationDTO(us);
+        }
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).body(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles));
+                roles, info));
     }
 
     @PostMapping("/signup")

@@ -1,5 +1,7 @@
 package com.team4.Transpeur.Model.DTO.Payload.Respone;
 
+import com.team4.Transpeur.Model.DTO.UserInformationDTO;
+
 import java.util.List;
 
 public class JwtResponse {
@@ -9,9 +11,38 @@ public class JwtResponse {
     private String username;
     private String email;
     private List<String> roles;
+    private UserInformationDTO userInfo;
 
+    public String getToken() {
+        return token;
+    }
 
-    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public UserInformationDTO getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInformationDTO userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, UserInformationDTO userInfo) {
+        this.userInfo = userInfo;
         this.token = accessToken;
         this.id = id;
         this.username = username;
