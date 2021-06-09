@@ -24,12 +24,20 @@ public class UserInformationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
-        Optional<UserInformation> uf = userInformationService.findUserInformationById(id);
+        Optional<User> uf = userService.findById(id);
         if (uf.isPresent())
-        return ResponseEntity.ok().body(new UserInformationDTO(userInformationService.findUserInformationById(id).get()));
-        else {
-            return ResponseEntity.ok().body(new UserInformationDTO());
-        }
+            if (uf.get().getInAu() != null)
+                return ResponseEntity.ok().body(new UserInformationDTO(uf.get().getInAu()));
+        return ResponseEntity.ok().body(new UserInformationDTO());
+    }
+    @GetMapping("/uname/{uname}")
+    public ResponseEntity<?> getById(@PathVariable("uname") String uname) {
+        Optional<User> uf = userService.findByUsername(uname);
+        if (uf.isPresent())
+            if (uf.get().getInAu() != null)
+            return ResponseEntity.ok().body(new UserInformationDTO(uf.get().getInAu()));
+             return ResponseEntity.ok().body(new UserInformationDTO());
+
     }
     @PutMapping("/modify")
     public ResponseEntity<?> modifyById(@RequestBody UserInformationDTO userInformation) {

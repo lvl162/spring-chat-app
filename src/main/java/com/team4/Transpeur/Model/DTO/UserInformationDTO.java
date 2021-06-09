@@ -94,6 +94,7 @@ public class UserInformationDTO {
         this.gender = userInformation.getGender();
         this.age = userInformation.getAge();
         this.dob = userInformation.getDob();
+        this.uname = userInformation.getUser().getUsername();
     }
     public Long getId() {
         return id;
