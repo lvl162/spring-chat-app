@@ -3,6 +3,7 @@ package com.team4.Transpeur.Controller;
 import com.team4.Transpeur.Model.DTO.UserInformationDTO;
 import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Model.Entities.UserInformation;
+import com.team4.Transpeur.Service.RatingService;
 import com.team4.Transpeur.Service.UserInformationService;
 import com.team4.Transpeur.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,23 @@ import java.util.Optional;
 public class UserInformationController {
     final UserInformationService userInformationService;
     final UserService userService;
+    final RatingService ratingService;
     @Autowired
-    public UserInformationController(UserInformationService userInformationService, UserService userService) {
+    public UserInformationController(UserInformationService userInformationService, UserService userService, RatingService ratingService) {
         this.userInformationService = userInformationService;
         this.userService = userService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
         Optional<User> uf = userService.findById(id);
         if (uf.isPresent())
-            if (uf.get().getInAu() != null)
-                return ResponseEntity.ok().body(new UserInformationDTO(uf.get().getInAu()));
+            if (uf.get().getInAu() != null) {
+                UserInformationDTO ufdt = new UserInformationDTO(uf.get().getInAu());
+                ufdt.setAvgRating(ratingService.getAvgRatingByUid(id));
+                return ResponseEntity.ok().body(ufdt);
+            }
         return ResponseEntity.ok().body(new UserInformationDTO());
     }
     @GetMapping("/uname/{uname}")
@@ -35,7 +41,11 @@ public class UserInformationController {
         Optional<User> uf = userService.findByUsername(uname);
         if (uf.isPresent())
             if (uf.get().getInAu() != null)
-            return ResponseEntity.ok().body(new UserInformationDTO(uf.get().getInAu()));
+                if (uf.get().getInAu() != null) {
+                    UserInformationDTO ufdt = new UserInformationDTO(uf.get().getInAu());
+                    ufdt.setAvgRating(ratingService.getAvgRatingByUid(uf.get().getId()));
+                    return ResponseEntity.ok().body(ufdt);
+                }
              return ResponseEntity.ok().body(new UserInformationDTO());
 
     }

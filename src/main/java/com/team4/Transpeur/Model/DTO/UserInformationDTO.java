@@ -6,6 +6,15 @@ import java.util.Date;
 
 public class UserInformationDTO {
     private String uname;
+    private Float avgRating;
+
+    public Float getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Float avgRating) {
+        this.avgRating = avgRating;
+    }
 
     public String getUname() {
         return uname;
