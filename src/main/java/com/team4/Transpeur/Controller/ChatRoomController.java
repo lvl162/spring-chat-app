@@ -85,6 +85,7 @@ public class ChatRoomController {
         {
             List<ChatRoomDTO> chatedUser = chatRoomService.findChatRoom(id)
                     .stream()
+                    .filter(chat -> userService.findById(chat.getaUserId()).isPresent() && userService.findById(chat.getbUserId()).isPresent())
                     .map(m -> {
                         ChatRoomDTO chat = new ChatRoomDTO(m);
                         chat.setUserA(new UserDTO(userService.findById(chat.getaUserId()).get()));
@@ -92,6 +93,21 @@ public class ChatRoomController {
                         return chat;
                     })
                     .collect(Collectors.toList());
+
+            return ResponseEntity.ok().body(chatedUser);
+        }
+        catch (Exception e) {
+            return ResponseEntity.ok().body(e);
+        }
+
+    }
+    @GetMapping("/api/chatroom/me3/{id}")
+    public ResponseEntity<?> getAllChatedUser3(@PathVariable("id") Long id)
+    {
+        try
+        {
+            List<ChatRoom> chatedUser = chatRoomService.findChatRoom(id);
+
 
             return ResponseEntity.ok().body(chatedUser);
         }
