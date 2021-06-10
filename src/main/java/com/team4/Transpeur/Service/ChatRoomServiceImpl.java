@@ -6,9 +6,11 @@ import com.team4.Transpeur.Repositories.ChatRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +23,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         this.userService = userService;
     }
 
+//    static Predicate<ChatRoom> chatRoomPredicate() {
+//        if (p.get)
+//    }
     @Override
     public List<ChatRoom> findChatRoom(Long id) {
         try {
@@ -38,7 +43,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
         catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<ChatRoom>();
         }
     }
 
