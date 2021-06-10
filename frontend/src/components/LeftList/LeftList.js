@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeOption } from '../../reducers/optionShow';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,9 @@ function LeftList(props) {
 
     const checkRoles = useSelector(state => state.CheckLogin.current.roles);
 
+    useEffect(() => {
+        console.log(ListChat)
+    }, [ListChat])
     const showList = (list) => {
         let id = '0';
         let result = null;
