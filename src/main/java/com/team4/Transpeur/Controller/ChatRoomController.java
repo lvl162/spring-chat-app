@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -58,12 +59,22 @@ public class ChatRoomController {
 //    }
     @PostMapping("/api/getChatId")
     public ResponseEntity<?> getChatId(@RequestBody GetChatIdRequest getChatIdRequest) {
-        ChatRoomDTO chat = new ChatRoomDTO(chatRoomService
-                .findBySenderIdAndRecipientId(getChatIdRequest.getSenderId(), getChatIdRequest.getRecipientId(), true));
-        chat.setUserA(new UserDTO(userService.findById(chat.getaUserId()).get()));
-        chat.setUserB(new UserDTO(userService.findById(chat.getbUserId()).get()));
+        try {
+            ChatRoomDTO chat = new ChatRoomDTO(chatRoomService
+                    .findBySenderIdAndRecipientId(getChatIdRequest.getSenderId(), getChatIdRequest.getRecipientId(), true));
+            Optional<User> userA = userService.findById(chat.getaUserId());
+            Optional<User> userB = userService.findById(chat.getbUserId());
+            if (userA.isPresent() && userB.isPresent()) {
+                chat.setUserA(new UserDTO(userService.findById(chat.getaUserId()).get()));
+                chat.setUserB(new UserDTO(userService.findById(chat.getbUserId()).get()));
+                return ResponseEntity.ok().body(chat);
+            }
 
-        return ResponseEntity.ok().body(chat);
+            return ResponseEntity.ok().body("khong tin thay");
+        }
+        catch (Exception e) {
+            return ResponseEntity.ok().body("khong tin thay: " + e.getMessage());
+        }
     }
 
     @GetMapping("/api/chatroom/me/{id}")
