@@ -11,13 +11,14 @@ public class ActiveUserDTO {
     private String email;
     private String firstName;
     private String lastName;
-
-    public ActiveUserDTO(String username, Long id, String email, String firstName, String lastName) {
+    private Boolean gender;
+    public ActiveUserDTO(String username, Long id, String email, String firstName, String lastName, Boolean gender) {
         this.username = username;
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
     }
 
     public ActiveUserDTO(User user) {
@@ -27,8 +28,11 @@ public class ActiveUserDTO {
         if (user.getInAu() != null) {
             this.firstName = user.getInAu().getFirstName();
             this.lastName = user.getInAu().lastName;
+            this.gender = user.getInAu().getGender();
         }
-        else {this.firstName = "UNKNOWN"; this.lastName = "";}
+        else {this.firstName = "UNKNOWN"; this.lastName = "";
+            this.gender = true;}
+
     }
     public String getUsername() {
         return username;
