@@ -1,110 +1,118 @@
-import React, { Component, useState, useRef, useEffect } from 'react';
-import SockJsClient from 'react-stomp';
-import './App.css';
-import './css/MessageStyle.css';
-import NameComponent from "./components/NameComponent";
+import React, { useEffect } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ROUTES from './routes';
+import firebase from 'firebase';
+import { setData } from './reducers/place';
+import { useDispatch, useSelector } from 'react-redux';
+import { onLogin } from './reducers/login-register';
+import ContactsGrid from './Admin/Component/Contacts/ContactsGrid';
+//import {changeOption} from './reducers/optionShow';
+import { fetchUser } from './reducers/FetchAllUser';
+//import { onLogout } from './reducers/checkLogin';
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+import axios from 'axios';
+import * as Config from './constants/Config';
 
-import {
-    
-    Button,
-    
-    TextField,
-} from "@material-ui/core";
-const senderId = 1001 //i id ban than
-const recipientId = 1003 // id nguoi nhan
-
-const chatId = 2401 // chatroomid =  get {nguoi gui, nguoi nhan}
-
-const SOCKET_URL = 'https://chatchit69.herokuapp.com/websocket-chat';
 
 function App(props) {
-    const [messages, setMessages] = useState([])
-    const [typedMessage, setTypeMessage] = useState("")
-    const [name, setName] = useState("")
-    // useEffect()
-    // useSubscription(`/topic/${chatId}/queue/messages`, (message) => setLastMessage(message.body.content));
-    let clientRefx = useRef(null)
-    const sendMessage = () => {
-        clientRefx.sendMessage('/app/chat', JSON.stringify({
-            recipientId: recipientId,
-            senderId: senderId,
-            content: typedMessage,
-        }));
-    };
-    const displayMessages = () => {
-        return (
-            <div>
-                {messages.map(msg => {
-                    return (
-                        <div>
-                            {name === msg.name ?
-                                <div>
-                                    <p className="title1">{msg.senderId} : </p><br />
-                                    <p>{msg.content}</p>
-                                </div> :
-                                <div>
-                                    <p className="title2">{msg.senderId} : </p><br />
-                                    <p>{msg.content}</p>
-                                </div>
-                            }
-                        </div>)
-                })}
-            </div>
-        );
-    };
 
-    return (
-        <div>
-            <NameComponent setName={setName} />
-            <div className="align-center">
-                <h1>Welcome to Web Sockets</h1>
-                <br /><br />
-            </div>
-            <div className="align-center">
-                User : <p className="title1"> {name}</p>
-            </div>
-            <div className="align-center">
-                <br /><br />
-                <table>
-                    <tr>
-                        <td>
-                            <TextField id="outlined-basic" label="Enter Message to Send" variant="outlined"
-                                onChange={(event) => {
-                                    setTypeMessage(event.target.value);
-                                }} />
-                        </td>
-                        <td>
-                            <Button variant="contained" color="primary"
-                                onClick={sendMessage}>Send</Button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <br /><br />
+	const options = {
+		timeout: 3000,
+		position: positions.BOTTOM_CENTER
+	};
 
-            <div className="align-center">
-                {displayMessages()}
-            </div>
-            <SockJsClient url={SOCKET_URL}
-                topics={[`/topic/${chatId}/queue/messages`]}
-                onConnect={() => {
-                    console.log("connected");
-                }}
-                onDisconnect={() => {
-                    console.log("Disconnected");
-                }}
-                onMessage={(msg) => {
-                    console.log(msg);
-                    messages.push(msg)
-                    setMessages(messages);
-                    console.log("set xong");
-                    // console.log(state);
-                }}
-                ref={(client) => {
-                    clientRef = client
-                }} />
-        </div>
-    )
+	const dispatch = useDispatch();
+
+
+	async function fetchData() {
+		await dispatch(fetchUser(accessToken));
+	}
+	const accessToken = useSelector(state => state.CheckLogin.current.accessToken);
+
+	const username = useSelector(state => state.CheckLogin.current.username);
+
+	const checkRoles = useSelector(state => state.CheckLogin.current.roles);
+	if (checkRoles) {
+		checkRoles.map(item => {
+			if (item === "ROLE_ADMIN") {
+				ROUTES.push({
+					path: "/admin/contactsGrid",
+					exact: true,
+					main: ContactsGrid,
+				});
+				fetchData();
+			}
+		})
+	}
+
+	const doSomeThing = () => {
+		axios.get(`/api/active/disconnect/${username}`, {
+			headers: {
+				'Authorization': `Bearer ${accessToken}`
+			}
+		}).then(res => res);
+	}
+
+	const setupBeforeUnLoad = () => {
+		window.addEventListener('beforeunload', (e) => {
+			e.preventDefault();
+			return doSomeThing();
+		})
+	}
+
+	useEffect(() => {
+		setupBeforeUnLoad();
+		FetchData();
+		dispatch(onLogin());
+		axios.get(`${Config.API_URL}/api/active/connect/${username}`, {
+			headers: {
+				'Authorization': `Bearer ${accessToken}`
+			}
+		}).then(res => res);
+		// dispatch(onLogout())
+		//dispatch(changeOption(0));
+	}, [accessToken])
+
+	async function FetchData() {
+		const db = await new Promise((a, b) => {
+			var dbRef = firebase.database().ref();
+			dbRef.on('value', snap => dispatch(setData(snap.val())));
+		})
+		return db;
+	}
+
+	return (
+		<Router>
+			<Provider template={AlertTemplate} {...options}>
+				<div style={{ fontFamily: 'sans-serif' }}>
+					<div className="Noke">
+						<div className="w-full">
+							{
+								showContentMenus(ROUTES)
+							}
+						</div>
+					</div>
+				</div>
+			</Provider>
+		</Router>
+	)
+}
+const showContentMenus = (routes) => {
+	var result = null;
+	if (routes.length > 0) {
+		result = routes.map((route, index) => {
+			return (<Route
+				key={index}
+				path={route.path}
+				exact={route.exact}
+				render={props => <route.main {...props} />}
+			/>)
+
+		})
+	}
+	return <Switch>{result}</Switch>
 }
 
-export default App;
+export default App
+

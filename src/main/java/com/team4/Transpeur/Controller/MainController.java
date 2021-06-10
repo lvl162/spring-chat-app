@@ -1,72 +1,72 @@
-package com.team4.Transpeur.Controller;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-
-@Controller
-public class MainController {
- 
-    @RequestMapping("/chat")
-    public String index(HttpServletRequest  request, Model model) {
-        String username = (String) request.getSession().getAttribute("username");
- 
-        if (username == null || username.isEmpty()) {
-            username = "A LOI";
-        }
-        model.addAttribute("username", username);
-
-        return "chat";
-    }
- 
-//    @RequestMapping(path = "/login", method = RequestMethod.GET)
-//    public String showLoginPage() {
-//        return "login";
-//    }
+//package com.team4.Transpeur.Controller;
 //
-//    @RequestMapping(path = "/login", method = RequestMethod.POST)
-//    public String doLogin(HttpServletRequest request, @RequestParam(defaultValue = "") String username) {
-//        username = username.trim();
+//import org.springframework.stereotype.Controller;
+//import org.springframework.ui.Model;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.bind.annotation.RequestParam;
 //
-//        if (username.isEmpty()) {
-//            return "login";
+//import javax.servlet.http.HttpServletRequest;
+//
+//@Controller
+//public class MainController {
+//
+//    @RequestMapping("/chat")
+//    public String index(HttpServletRequest  request, Model model) {
+//        String username = (String) request.getSession().getAttribute("username");
+//
+//        if (username == null || username.isEmpty()) {
+//            username = "A LOI";
 //        }
-//        request.getSession().setAttribute("username", username);
+//        model.addAttribute("username", username);
 //
-//        return "redirect:/chat";
+//        return "chat";
 //    }
 //
-//    @RequestMapping(path = "/logout")
-//    public String logout(HttpServletRequest request) {
-//        request.getSession(true).invalidate();
-//        return "redirect:/login";
+////    @RequestMapping(path = "/login", method = RequestMethod.GET)
+////    public String showLoginPage() {
+////        return "login";
+////    }
+////
+////    @RequestMapping(path = "/login", method = RequestMethod.POST)
+////    public String doLogin(HttpServletRequest request, @RequestParam(defaultValue = "") String username) {
+////        username = username.trim();
+////
+////        if (username.isEmpty()) {
+////            return "login";
+////        }
+////        request.getSession().setAttribute("username", username);
+////
+////        return "redirect:/chat";
+////    }
+////
+////    @RequestMapping(path = "/logout")
+////    public String logout(HttpServletRequest request) {
+////        request.getSession(true).invalidate();
+////        return "redirect:/login";
+////    }
+//@RequestMapping(value = { "/login" })
+//public String login(@RequestParam(required=false) String message, final Model model) {
+//    if (message != null && !message.isEmpty()) {
+//        if (message.equals("timeout")) {
+//            model.addAttribute("message", "Time out");
+//        }
+//        if (message.equals("max_session")) {
+//            model.addAttribute("message", "This accout has been login from another device!");
+//        }
+//        if (message.equals("logout")) {
+//            model.addAttribute("message", "Logout!");
+//        }
+//        if (message.equals("error")) {
+//            model.addAttribute("message", "Login Failed!");
+//        }
 //    }
-@RequestMapping(value = { "/login" })
-public String login(@RequestParam(required=false) String message, final Model model) {
-    if (message != null && !message.isEmpty()) {
-        if (message.equals("timeout")) {
-            model.addAttribute("message", "Time out");
-        }
-        if (message.equals("max_session")) {
-            model.addAttribute("message", "This accout has been login from another device!");
-        }
-        if (message.equals("logout")) {
-            model.addAttribute("message", "Logout!");
-        }
-        if (message.equals("error")) {
-            model.addAttribute("message", "Login Failed!");
-        }
-    }
-    return "login";
-}
-
-    @RequestMapping("/user")
-    public String user() {
-        return "user";
-    }
-
-}
+//    return "login";
+//}
+//
+//    @RequestMapping("/user")
+//    public String user() {
+//        return "user";
+//    }
+//
+//}

@@ -73,14 +73,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/index", "/", "/login","/signin", "/websocket-chat/**", "/topic/**", "/app**", "/app/**").permitAll()
                 .anyRequest().authenticated();
-        http.authorizeRequests().and().formLogin()//
-                .loginProcessingUrl("/j_spring_security_login")//
-                .loginPage("/login")//
-                .successHandler(customAuthenticationSuccessHandler())
-                .usernameParameter("username")//
-                .passwordParameter("password")
-                // Cấu hình cho Logout Page.
-                .and().logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/login?message=logout");
+//        http.authorizeRequests().and().formLogin()//
+//                .loginProcessingUrl("/j_spring_security_login")//
+//                .loginPage("/login")//
+//                .successHandler(customAuthenticationSuccessHandler())
+//                .usernameParameter("username")//
+//                .passwordParameter("password")
+//                // Cấu hình cho Logout Page.
+//                .and().logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/login?message=logout");
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
