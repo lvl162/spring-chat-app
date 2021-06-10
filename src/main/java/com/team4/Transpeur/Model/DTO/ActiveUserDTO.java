@@ -12,6 +12,15 @@ public class ActiveUserDTO {
     private String firstName;
     private String lastName;
     private Boolean gender;
+
+    public Boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
+
     public ActiveUserDTO(String username, Long id, String email, String firstName, String lastName, Boolean gender) {
         this.username = username;
         this.id = id;
