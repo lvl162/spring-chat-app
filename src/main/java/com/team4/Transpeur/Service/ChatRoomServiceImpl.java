@@ -35,7 +35,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                         @Override
                         public int compare(ChatRoom o1, ChatRoom o2) {
                             if (o1.getRecentActive() == null || o2.getRecentActive() == null) return 0;
-                            return o1.getRecentActive().compareTo(o2.getRecentActive());
+                            return o2.getRecentActive().compareTo(o1.getRecentActive());
                         }
                     })
                     .distinct()

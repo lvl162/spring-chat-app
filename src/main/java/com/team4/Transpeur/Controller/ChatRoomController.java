@@ -81,13 +81,29 @@ public class ChatRoomController {
     public ResponseEntity<?> getAllChatedUser(@PathVariable("id") Long id)
     {
 
-        List<UserDTO> chatedUser = chatRoomService.findByUserId(id)
+//        List<UserDTO> chatedUser = chatRoomService.findByUserId(id)
+//                .stream()
+//                .filter(m -> m.getId())
+//                .map(m -> new UserDTO(m))
+//                .collect(Collectors.toList());
+//
+//        return ResponseEntity.ok().body(chatedUser);
+        List<UserDTO> chatedUser = chatRoomService.findChatRoom(id)
                 .stream()
-                .map(m -> new UserDTO(m))
+                .filter(chat -> userService.findById(chat.getaUserId()).isPresent() && userService.findById(chat.getbUserId()).isPresent())
+                .map(m -> {
+                    ChatRoomDTO chat = new ChatRoomDTO(m);
+                    if (m.getbUserId().equals(id)) {
+                        return new UserDTO(userService.findById(chat.getaUserId()).get());
+                    }
+//                    chat.setUserA(new UserDTO(userService.findById(chat.getaUserId()).get()));
+//                    chat.setUserB(new UserDTO(userService.findById(chat.getbUserId()).get()));
+//                    return chat;
+                        return new UserDTO(userService.findById(chat.getbUserId()).get());
+
+                })
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok().body(chatedUser);
-
     }
     @GetMapping("/api/chatroom/me2/{id}")
     public ResponseEntity<?> getAllChatedUser2(@PathVariable("id") Long id)
