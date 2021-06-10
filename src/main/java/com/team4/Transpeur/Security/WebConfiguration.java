@@ -11,6 +11,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
   public void addViewControllers(ViewControllerRegistry registry) {
       registry.addViewController("/{spring:\\w+}")
             .setViewName("forward:/");
+      registry.addViewController("/myProfile")
+              .setViewName("forward:/");
       registry.addViewController("/**/{spring:\\w+}")
             .setViewName("forward:/");
       registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
