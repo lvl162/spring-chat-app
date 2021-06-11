@@ -1,6 +1,7 @@
 package com.team4.Transpeur.Controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +71,20 @@ public class WebSocketConnectionRestController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: " + e.getMessage()));
         }
     }
-    
+    @PostMapping(value = "/disconnect")
+    public ResponseEntity<?> receiveSimpleBeacon(@RequestParam("data") String data) {
+//        System.out.println(data + " "+ new Date().toString());
+        if (!userService.findByUsername(data).isPresent()) return ResponseEntity.badRequest().body(new
+                MessageResponse("Error: not fount this username" ));
+        try {
+            activeSessionManager.remove(data);
+            return ResponseEntity.ok().body(new MessageResponse("Success"));
+
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: " + e.getMessage()));
+        }
+    }
     @GetMapping("/active-users-except/{userName}")
     public ResponseEntity<?> getActiveUsersExceptCurrentUser(@PathVariable String userName) {
         List<ActiveUserDTO> users = new ArrayList<>();
