@@ -3,12 +3,10 @@ package com.team4.Transpeur.Controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.team4.Transpeur.Model.DTO.ActiveUserDTO;
 import com.team4.Transpeur.Model.DTO.Payload.Respone.MessageResponse;
-import com.team4.Transpeur.Model.DTO.UserDTO;
 import com.team4.Transpeur.Model.Entities.User;
 import com.team4.Transpeur.Security.socket.ActiveUserManager;
 import com.team4.Transpeur.Service.UserService;
@@ -21,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/active")
 public class WebSocketConnectionRestController {
     
-    private ActiveUserManager activeSessionManager;
+    final ActiveUserManager activeSessionManager;
 
-    private UserService userService;
+    final UserService userService;
 
     @Autowired
     public WebSocketConnectionRestController(ActiveUserManager activeSessionManager, UserService userService) {
@@ -34,6 +32,8 @@ public class WebSocketConnectionRestController {
     @GetMapping("/connect/{username}")
     public ResponseEntity<?> userConnect(HttpServletRequest request,
                                       @PathVariable("username") String userName) {
+        if (userService.findByUsername(userName).isPresent()) return ResponseEntity.badRequest().body(new
+                MessageResponse("Error: not fount this username" ));
         try {
 
             String remoteAddr = "";
@@ -56,8 +56,11 @@ public class WebSocketConnectionRestController {
     }
     
     @GetMapping("/disconnect/{username}")
-    public ResponseEntity<?> userDisconnect(HttpServletRequest request,
+    public ResponseEntity<?> userDisconnect(
                               @PathVariable("username") String userName) {
+
+        if (userService.findByUsername(userName).isPresent()) return ResponseEntity.badRequest().body(new
+                MessageResponse("Error: not fount this username" ));
         try {
             activeSessionManager.remove(userName);
             return ResponseEntity.ok().body(new MessageResponse("Success"));
@@ -70,24 +73,20 @@ public class WebSocketConnectionRestController {
     
     @GetMapping("/active-users-except/{userName}")
     public ResponseEntity<?> getActiveUsersExceptCurrentUser(@PathVariable String userName) {
-        List<ActiveUserDTO> users = new ArrayList<ActiveUserDTO>();
+        List<ActiveUserDTO> users = new ArrayList<>();
         for (String user: activeSessionManager.getActiveUsersExceptCurrentUser(userName) ) {
             Optional<User> userOptional = userService.findByUsername(user);
-            if (userOptional.isPresent()) {
-                users.add(new ActiveUserDTO(userOptional.get()));
-            };
-        };
+            userOptional.ifPresent(value -> users.add(new ActiveUserDTO(value)));
+        }
         return ResponseEntity.ok().body(users);
     }
     @GetMapping("/active-users")
     public ResponseEntity<?> getActiveUsers() {
-        List<ActiveUserDTO> users = new ArrayList<ActiveUserDTO>();
+        List<ActiveUserDTO> users = new ArrayList<>();
         for (String user: activeSessionManager.getAll() ) {
             Optional<User> userOptional = userService.findByUsername(user);
-            if (userOptional.isPresent()) {
-                users.add(new ActiveUserDTO(userOptional.get()));
-            };
-        };
+            userOptional.ifPresent(value -> users.add(new ActiveUserDTO(value)));
+        }
         return ResponseEntity.ok().body(users);
     }
 }
