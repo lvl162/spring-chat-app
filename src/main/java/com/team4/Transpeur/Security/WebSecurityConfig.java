@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll().and()
                 .authorizeRequests()
-                .antMatchers("/static/**", "/public/**", "/manifest.json", "/favicon.ico","/index", "/", "/login","/api/active/bacon-test", "/websocket-chat/**", "/topic/**", "/app**", "/app/**").permitAll()
+                .antMatchers("/static/**", "/public/**", "/manifest.json", "/favicon.ico","/index", "/", "/login","/api/active/disconnect", "/websocket-chat/**", "/topic/**", "/app**", "/app/**").permitAll()
                 .anyRequest().authenticated();
 //        http.authorizeRequests().and().formLogin()//
 //                .loginProcessingUrl("/j_spring_security_login")//
