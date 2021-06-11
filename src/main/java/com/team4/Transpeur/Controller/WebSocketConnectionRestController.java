@@ -32,7 +32,7 @@ public class WebSocketConnectionRestController {
     @GetMapping("/connect/{username}")
     public ResponseEntity<?> userConnect(HttpServletRequest request,
                                       @PathVariable("username") String userName) {
-        if (userService.findByUsername(userName).isPresent()) return ResponseEntity.badRequest().body(new
+        if (!userService.findByUsername(userName).isPresent()) return ResponseEntity.badRequest().body(new
                 MessageResponse("Error: not fount this username" ));
         try {
 
@@ -59,7 +59,7 @@ public class WebSocketConnectionRestController {
     public ResponseEntity<?> userDisconnect(
                               @PathVariable("username") String userName) {
 
-        if (userService.findByUsername(userName).isPresent()) return ResponseEntity.badRequest().body(new
+        if (!userService.findByUsername(userName).isPresent()) return ResponseEntity.badRequest().body(new
                 MessageResponse("Error: not fount this username" ));
         try {
             activeSessionManager.remove(userName);
