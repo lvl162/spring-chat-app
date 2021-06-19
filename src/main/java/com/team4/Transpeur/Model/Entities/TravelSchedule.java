@@ -171,6 +171,7 @@ public class TravelSchedule extends AuditModel{
         this.toTime = toTime;
         this.user = user;
         this.transport = transport;
+        this.setActive(true);
     }
 
     public TravelSchedule(){}

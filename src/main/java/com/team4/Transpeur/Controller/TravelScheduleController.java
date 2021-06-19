@@ -89,27 +89,47 @@ public class TravelScheduleController {
 
     @GetMapping("/uid/{id}")
     public ResponseEntity<?> getPostsByUid(@PathVariable("id") Long id) {
-            Set<TravelScheduleDTO> travelScheduleSet = userService.findById(id).get().getTravelSchedules()
-                    .stream().filter(m -> m.getActive()).map(m -> new TravelScheduleDTO(m)).sorted(new Comparator<TravelScheduleDTO>() {
-                        @Override
-                        public int compare(TravelScheduleDTO o1, TravelScheduleDTO o2) {
-                            return o1.getCreateAt().compareTo(o2.getCreateAt());
-                        }
-                    }).collect(Collectors.toSet());
-            if (travelScheduleSet != null)
+        List<TravelScheduleDTO> toSort = new ArrayList<>();
+        for (TravelSchedule m : userService.findById(id).get().getTravelSchedules()) {
+            if (m.getActive()) {
+                TravelScheduleDTO travelScheduleDTO = new TravelScheduleDTO(m);
+                toSort.add(travelScheduleDTO);
+            }
+        }
+        toSort.sort(new Comparator<TravelScheduleDTO>() {
+            @Override
+            public int compare(TravelScheduleDTO o1, TravelScheduleDTO o2) {
+                return o1.getCreateAt().compareTo(o2.getCreateAt());
+            }
+        });
+        List<TravelScheduleDTO> travelScheduleSet = new ArrayList<>();
+        for (TravelScheduleDTO travelScheduleDTO : toSort) {
+            travelScheduleSet.add(travelScheduleDTO);
+        }
+        if (travelScheduleSet != null)
             return ResponseEntity.ok().body(travelScheduleSet);
         return ResponseEntity.badRequest().body(new MessageResponse("Not found"));
 
     }
     @GetMapping("/uname/{uname}")
     public ResponseEntity<?> getPostsByUid(@PathVariable("uname") String uname) {
-        Set<TravelScheduleDTO> travelScheduleSet = userService.findByUsername(uname).get().getTravelSchedules()
-                .stream().filter(m -> m.getActive()).map(m -> new TravelScheduleDTO(m)).sorted(new Comparator<TravelScheduleDTO>() {
-                    @Override
-                    public int compare(TravelScheduleDTO o1, TravelScheduleDTO o2) {
-                        return o1.getCreateAt().compareTo(o2.getCreateAt());
-                    }
-                }).collect(Collectors.toSet());
+        List<TravelScheduleDTO> toSort = new ArrayList<>();
+        for (TravelSchedule m : userService.findByUsername(uname).get().getTravelSchedules()) {
+            if (m.getActive()) {
+                TravelScheduleDTO travelScheduleDTO = new TravelScheduleDTO(m);
+                toSort.add(travelScheduleDTO);
+            }
+        }
+        toSort.sort(new Comparator<TravelScheduleDTO>() {
+            @Override
+            public int compare(TravelScheduleDTO o1, TravelScheduleDTO o2) {
+                return o1.getCreateAt().compareTo(o2.getCreateAt());
+            }
+        });
+        List<TravelScheduleDTO> travelScheduleSet = new ArrayList<>();
+        for (TravelScheduleDTO travelScheduleDTO : toSort) {
+            travelScheduleSet.add(travelScheduleDTO);
+        }
         if (travelScheduleSet != null)
             return ResponseEntity.ok().body(travelScheduleSet);
         return ResponseEntity.badRequest().body(new MessageResponse("Not found"));
@@ -119,7 +139,8 @@ public class TravelScheduleController {
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok().body(travelScheduleService.findAll().stream()
                 .filter(m -> m.getActive()).
-                map(m -> new TravelScheduleDTO(m)).sorted(new Comparator<TravelScheduleDTO>() {
+                map(m -> new TravelScheduleDTO(m))
+                .sorted(new Comparator<TravelScheduleDTO>() {
                     @Override
                     public int compare(TravelScheduleDTO o1, TravelScheduleDTO o2) {
                         return o1.getCreateAt().compareTo(o2.getCreateAt());
