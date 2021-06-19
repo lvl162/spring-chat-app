@@ -14,6 +14,15 @@ public class TravelScheduleDTO {
     private Integer seenTimes;
     private String fromPlace;
     private String transport;
+    private Boolean active;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     private UserInformationDTO infoUser;
     public String getTransport() {
@@ -101,6 +110,8 @@ public class TravelScheduleDTO {
         this.transport= travelSchedule.getTransport();
         if (travelSchedule.getUser().getInAu()!=null) this.infoUser = new UserInformationDTO(travelSchedule.getUser().getInAu());
         else this.infoUser = new UserInformationDTO();
+
+        this.active = travelSchedule.getActive();
     }
 
     public Long getId() {

@@ -49,4 +49,14 @@ public class TravelScheduleServiceImpl implements TravelScheduleService{
     public Page<TravelSchedule> findAll(Pageable pageable) {
         return travelScheduleRepository.findAll(pageable);
     }
+
+    @Override
+    public void deactive(Long id) {
+        Optional<TravelSchedule> tso = travelScheduleRepository.findById(id);
+        if (tso.isPresent()) {
+            TravelSchedule ts = tso.get();
+            ts.setActive(false);
+            travelScheduleRepository.save(ts);
+        }
+    }
 }

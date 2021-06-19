@@ -16,4 +16,6 @@ public interface TravelScheduleService {
     Optional<TravelSchedule> findById(Long id);
     void deleteById(Long id);
     Page<TravelSchedule> findAll(Pageable pageable);
+
+    void deactive(Long id);
 }

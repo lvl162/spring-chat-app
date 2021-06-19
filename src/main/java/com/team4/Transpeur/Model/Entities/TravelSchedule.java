@@ -57,6 +57,18 @@ public class TravelSchedule extends AuditModel{
         this.transport = transport;
     }
 
+
+    @Column(name="active", columnDefinition = "boolean default true")
+    private Boolean active;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     @Column(name="transport")
     @Field
     private String transport;

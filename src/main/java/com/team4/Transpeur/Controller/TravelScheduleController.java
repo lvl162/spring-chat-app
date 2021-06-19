@@ -50,10 +50,19 @@ public class TravelScheduleController {
         }
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> deletePost(@PathVariable("id") Long id) {
         try {
             travelScheduleService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/deactive/{id}")
+    public ResponseEntity<HttpStatus> deativePost(@PathVariable("id") Long id) {
+        try {
+            travelScheduleService.deactive(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -95,6 +104,7 @@ public class TravelScheduleController {
     @GetMapping("/all")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok().body(travelScheduleService.findAll().stream().
+                filter(m -> m.getActive()).
                 map(m -> new TravelScheduleDTO(m)).collect(Collectors.toList()));
     }
 
