@@ -59,12 +59,16 @@ public class TravelScheduleController {
         }
     }
     @GetMapping("/deactive/{id}")
-    public ResponseEntity<HttpStatus> deativePost(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deativePost(@PathVariable("id") Long id) {
         try {
-            travelScheduleService.deactive(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (travelScheduleService.findById(id).isPresent()) {
+                travelScheduleService.deactive(id);
+                return ResponseEntity.ok().body(new MessageResponse("Xóa thành công"));
+            }
+            return ResponseEntity.badRequest().body(new MessageResponse("Lỗi: Không tìm thấy post"));
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.badRequest().body(new MessageResponse("Lỗi: Da co loi xay ra"));
+
         }
     }
     @PostMapping("/new")

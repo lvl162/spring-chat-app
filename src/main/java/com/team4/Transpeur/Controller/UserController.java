@@ -32,6 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getUsers() {
 
         return ResponseEntity.ok().body(userService.findAll()
@@ -73,6 +74,7 @@ public class UserController {
     }
 
     @GetMapping("/block/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> blockOrUnblockUser(@PathVariable("id") Long id) {
         Optional<User> user = userService.findById(id);
         if (user.isPresent()) {
