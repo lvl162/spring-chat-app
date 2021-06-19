@@ -86,7 +86,7 @@ public class TravelScheduleController {
     @GetMapping("/uid/{id}")
     public ResponseEntity<?> getPostsByUid(@PathVariable("id") Long id) {
             Set<TravelScheduleDTO> travelScheduleSet = userService.findById(id).get().getTravelSchedules()
-                    .stream().map(m -> new TravelScheduleDTO(m)).collect(Collectors.toSet());
+                    .stream().filter(m -> m.getActive()).map(m -> new TravelScheduleDTO(m)).collect(Collectors.toSet());
             if (travelScheduleSet != null)
             return ResponseEntity.ok().body(travelScheduleSet);
         return ResponseEntity.badRequest().body(new MessageResponse("Not found"));
@@ -95,7 +95,7 @@ public class TravelScheduleController {
     @GetMapping("/uname/{uname}")
     public ResponseEntity<?> getPostsByUid(@PathVariable("uname") String uname) {
         Set<TravelScheduleDTO> travelScheduleSet = userService.findByUsername(uname).get().getTravelSchedules()
-                .stream().map(m -> new TravelScheduleDTO(m)).collect(Collectors.toSet());
+                .stream().filter(m -> m.getActive()).map(m -> new TravelScheduleDTO(m)).collect(Collectors.toSet());
         if (travelScheduleSet != null)
             return ResponseEntity.ok().body(travelScheduleSet);
         return ResponseEntity.badRequest().body(new MessageResponse("Not found"));
@@ -103,8 +103,8 @@ public class TravelScheduleController {
     }
     @GetMapping("/all")
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok().body(travelScheduleService.findAll().stream().
-                filter(m -> m.getActive()).
+        return ResponseEntity.ok().body(travelScheduleService.findAll().stream()
+                .filter(m -> m.getActive()).
                 map(m -> new TravelScheduleDTO(m)).collect(Collectors.toList()));
     }
 
@@ -169,5 +169,16 @@ public class TravelScheduleController {
                 .filter(p -> match(p, searchDTO))
                 .map(TravelScheduleDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(travelScheduleDTOS);
+    }
+
+    @GetMapping("/setup")
+    public String SetUp() {
+        List<TravelSchedule> ls = travelScheduleService.findAll();
+        for (TravelSchedule ts:
+             ls) {
+            ts.setActive(true);
+            travelScheduleService.save(ts);
+        }
+        return "True";
     }
 }
