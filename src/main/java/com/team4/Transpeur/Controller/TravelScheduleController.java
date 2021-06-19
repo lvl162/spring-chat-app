@@ -207,6 +207,7 @@ public class TravelScheduleController {
     public ResponseEntity<?> searchForCars(@Valid @RequestBody SearchDTO searchDTO) {
         List<TravelScheduleDTO> travelScheduleDTOS = travelScheduleService.findAll().stream()
                 .filter(p -> match(p, searchDTO))
+                .filter(m -> m.getActive())
                 .map(TravelScheduleDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(travelScheduleDTOS);
     }
