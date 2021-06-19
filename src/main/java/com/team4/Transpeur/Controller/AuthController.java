@@ -9,10 +9,7 @@ import com.team4.Transpeur.Model.DTO.UserInformationDTO;
 import com.team4.Transpeur.Model.Entities.*;
 import com.team4.Transpeur.Security.jwt.JwtUtils;
 import com.team4.Transpeur.Security.services.UserDetailsImpl;
-import com.team4.Transpeur.Service.EmailService;
-import com.team4.Transpeur.Service.PasswordResetService;
-import com.team4.Transpeur.Service.RoleService;
-import com.team4.Transpeur.Service.UserService;
+import com.team4.Transpeur.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -49,10 +46,11 @@ public class AuthController {
 
     PasswordResetService passwordResetService;
 
+    UserInformationService userInformationService;
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService,
                           PasswordEncoder encoder, JwtUtils jwtUtils
-            , EmailService emailService, PasswordResetService passwordResetService) {
+            , EmailService emailService, PasswordResetService passwordResetService, UserInformationService userInformationService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.roleService = roleService;
@@ -60,6 +58,7 @@ public class AuthController {
         this.jwtUtils = jwtUtils;
         this.emailService = emailService;
         this.passwordResetService = passwordResetService;
+        this.userInformationService = userInformationService;
     }
 
     @Autowired
@@ -120,7 +119,7 @@ public class AuthController {
             info = new UserInformationDTO(us);
         }
         if ( user.isIs_blocked()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Tai khoan da bi block !!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Lỗi: Tài khoản đã bị khóa"));
         }
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).body(new JwtResponse(jwt,
                 userDetails.getId(),
@@ -134,19 +133,21 @@ public class AuthController {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Lỗi: Tên đăng nhập đã được sử dụng"));
         }
 
         if (userService.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("Lỗi: Email đã được sử dụng"));
         }
 
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
+
+
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -180,6 +181,11 @@ public class AuthController {
 
         user.setRoles(roles);
         userService.save(user);
+        UserInformation uf = new UserInformation();
+        uf.setFirstName(signUpRequest.getFirstName());
+        uf.setLastName(signUpRequest.getLastName());
+        uf.setUser(user);
+        userInformationService.save(uf);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
